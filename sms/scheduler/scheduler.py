@@ -1,8 +1,7 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from django_apscheduler.jobstores import DjangoJobStore
 from django.utils import timezone
-from django_apscheduler.models import DjangoJobExecution
-import sys
+
 
 # This is the function you want to schedule - add as many as you want and then register them in the start() function below
 def deactivate_expired_accounts():
