@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'sms.apps.SmsConfig'
+    'sms.apps.SmsConfig',
+    'django_apscheduler'
 ]
 
 MIDDLEWARE = [
