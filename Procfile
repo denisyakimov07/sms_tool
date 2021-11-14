@@ -1,1 +1,1 @@
-web: gunicorn light.wsgi
+web: gunicorn sms_tool.wsgi
