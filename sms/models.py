@@ -21,4 +21,4 @@ class MainSetup(models.Model):
     second_sms_text = models.TextField(null=False, blank=True) #last_appointment_date -14 days
     seven_days = models.TextField(null=False, blank=True)  # last_appointment_date - 7 days
     zero_days= models.TextField(null=False, blank=True) # last_appointment_date = last_appointment_date
-    final_warning_7_days_after = models.TextField(null=False, blank=True)  # last_appointment_date +1 year + 7 days
+    final_warning_7_days_after= models.TextField(null=False, blank=True)  # last_appointment_date +1 year + 7 days
