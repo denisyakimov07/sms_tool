@@ -1,21 +1,19 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from django_apscheduler.jobstores import DjangoJobStore
-from django.utils import timezone
+
 
 
 # This is the function you want to schedule - add as many as you want and then register them in the start() function below
-def deactivate_expired_accounts():
-    today = timezone.now()
-
-    print("********************")
-
+import sms.views
+from sms import views
 
 
 def start():
     scheduler = BackgroundScheduler()
     scheduler.add_jobstore(DjangoJobStore(), "default")
     # run this job every 24 hours
-    scheduler.add_job(deactivate_expired_accounts, 'interval', seconds=24, id="task001", replace_existing=True)
+    # update dates in exist customer if not creat new one
+    scheduler.add_job(views.update_appointments_for_two_last_days, 'interval', seconds=60, id="update_appointments_for_two_last_days", replace_existing=True)
 
     scheduler.start()
     # print("Scheduler started...", file=sys.stdout)

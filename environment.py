@@ -17,8 +17,8 @@ class _Environment:
         self.DB_DATABASE = os.getenv('DB_DATABASE')
 
         '''API_PASSWORD'''
-        self.ACU_USER_ID = os.getenv('USER_ID')
-        self.ACU_API_KEY = os.getenv('API_KEY')
+        self.ACU_USER_ID = os.getenv('ACU_USER_ID')
+        self.ACU_API_KEY = os.getenv('ACU_API_KEY')
 
 
 __environment = _Environment()

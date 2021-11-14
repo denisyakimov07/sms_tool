@@ -16,7 +16,16 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from acuityscheduling_API import api_get_appointments
+from sms.views import add_to_db_all_customers, update_appointments_for_two_last_days
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     #path('', admin.site.urls)
 ]
+
+
+#one time create full list of customers
+
+add_to_db_all_customers()
+update_appointments_for_two_last_days()

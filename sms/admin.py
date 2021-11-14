@@ -4,15 +4,48 @@ from django.contrib import admin
 from .models import Customer, MainSetup
 
 
-class MainSetupAdmin_buttons(admin.ModelAdmin):
+class MainSetupAdmin(admin.ModelAdmin):
     def has_add_permission(self, request, obj=None):
         return False
 
     def has_delete_permission(self, request, obj=None):
         return False
 
+class CustomeAdmin(admin.ModelAdmin):
+    list_display = ("first_name", "last_name", "phone_number", "email", "last_appointment_date",
+                    "warning_sms_date", "first_sms_date", "second_sms_date", "cancel_by_customer", "last_appointment_id")
+    def first_name(self, obj):
+        return obj.first_name
+
+    def last_name(self, obj):
+        return obj.last_name
+
+    def phone_number(self, obj):
+        return obj.phone_number
+
+    def email(self, obj):
+        return obj.email
+
+    def last_appointment_date(self, obj):
+        return obj.last_appointment_date
 
 
-admin.site.register(Customer)
-admin.site.register(MainSetup, MainSetupAdmin_buttons)
+    def last_appointment_id(self, obj):
+        return obj.last_appointment_id
+
+    def warning_sms_date(self, obj):
+        return obj.warning_sms_date
+
+    def first_sms_date(self, obj):
+        return obj.first_sms_date
+
+    def second_sms_date(self, obj):
+        return obj.second_sms_date
+
+    def cancel_by_customer(self, obj):
+        return obj.cancel_by_customer
+
+
+admin.site.register(Customer, CustomeAdmin)
+admin.site.register(MainSetup, MainSetupAdmin)
 
