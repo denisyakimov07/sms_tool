@@ -12,8 +12,10 @@ class Customer(models.Model):
     first_sms_date = models.DateTimeField(null=False, blank=True)
     second_sms_date = models.DateTimeField(null=False, blank=True)
     cancel_by_customer =  models.BooleanField(blank=True, default=False)
+    def __str__(self):
+        return self.phone_number
 
-class Main_setup():
+class MainSetup(models.Model):
     warning_sms = models.TextField(null=False, blank=True) # last_appointment_date -30 days
     first_sms_text = models.TextField(null=False, blank=True) #last_appointment_date -21 days
     second_sms_text = models.TextField(null=False, blank=True) #last_appointment_date -14 days
