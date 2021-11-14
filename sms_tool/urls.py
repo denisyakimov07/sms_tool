@@ -13,19 +13,19 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+import logging
+
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 from acuityscheduling_API import api_get_appointments
 from sms.views import add_to_db_all_customers, update_appointments_for_two_last_days
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    #path('', admin.site.urls)
 ]
 
 
 #one time create full list of customers
 
 add_to_db_all_customers()
-update_appointments_for_two_last_days()
