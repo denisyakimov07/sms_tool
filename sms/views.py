@@ -1,7 +1,8 @@
 import datetime
 import setup
+import pytz
 
-
+from django.utils import timezone
 
 
 # Create your views here.
@@ -13,20 +14,21 @@ def get_customer_by_phone(phone):
     return Customer.objects.filter(phone_number=phone)
 
 def create_customer(customer: CustomerAPI):
-    if customer.appointment_datetime >= datetime.datetime.now() - datetime.timedelta(setup.days_for_old_customers):
+    if customer.appointment_datetime <= timezone.now() - datetime.timedelta(setup.days_for_old_customers):
         new_customer = Customer()
         new_customer.first_name = customer.first_name
         new_customer.last_name = customer.last_name
         new_customer.phone_number = customer.phone
         new_customer.email = customer.email
         new_customer.last_appointment_id = customer.appointment_id
+
         new_customer.last_appointment_date = customer.appointment_datetime
-        new_customer.warning_sms_date = datetime.datetime.now() + datetime.timedelta(1)
-        new_customer.first_sms_date = datetime.datetime.now() + datetime.timedelta(8)
-        new_customer.second_sms_date = datetime.datetime.now() + datetime.timedelta(14)
-        new_customer.third_sms_date = datetime.datetime.now() + datetime.timedelta(21)
-        new_customer.one_year_sms_date = datetime.datetime.now() + datetime.timedelta(28)
-        new_customer.final_warning_7_days_sms_date = datetime.datetime.now() + datetime.timedelta(35)
+        new_customer.warning_sms_date = timezone.now() + datetime.timedelta(1)
+        new_customer.first_sms_date = timezone.now() + datetime.timedelta(8)
+        new_customer.second_sms_date = timezone.now() + datetime.timedelta(14)
+        new_customer.third_sms_date = timezone.now() + datetime.timedelta(21)
+        new_customer.one_year_sms_date = timezone.now() + datetime.timedelta(28)
+        new_customer.final_warning_7_days_sms_date = timezone.now() + datetime.timedelta(35)
         new_customer.save()
     else:
         new_customer = Customer()
