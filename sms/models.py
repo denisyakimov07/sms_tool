@@ -11,7 +11,7 @@ class Customer(models.Model):
     last_name = models.CharField(max_length=200, null=False, blank=True)
     email = models.CharField(max_length=200, null=False, blank=True)
     phone_number = models.CharField(max_length=200, null=True, blank=True, unique=True)
-    last_appointment_id = models.BigIntegerField(null=False, blank=True)
+    last_appointment_id = models.CharField(max_length=500, null=False, blank=True)
     last_appointment_date = models.DateTimeField(null=False, blank=True)
     warning_sms_date = models.DateTimeField(null=True, blank=True)
     first_sms_date = models.DateTimeField(null=True, blank=True)
@@ -20,6 +20,11 @@ class Customer(models.Model):
     one_year_sms_date = models.DateTimeField(null=True, blank=True)
     final_warning_7_days_sms_date = models.DateTimeField(null=True)
     cancel_by_customer =  models.BooleanField(blank=True, default=False)
+
+    def __str__(self):
+        return f"{self.first_name} - {self.last_name} - {self.email}- {self.phone_number}- {self.last_appointment_date}" \
+               f"- {self.warning_sms_date}- {self.first_sms_date}- {self.second_sms_date}- {self.third_sms_date}" \
+               f"- {self.one_year_sms_date} - {self.final_warning_7_days_sms_date}"
 
 
 class MainSetup(models.Model):
@@ -32,10 +37,13 @@ class MainSetup(models.Model):
     update_all_users = models.BooleanField(blank=True, default=False)
 
 #API_MODELS
-class CustomerAPI(BaseModel):
-    appointment_id: Optional[int] = Field(alias='id')
-    first_name: Optional[str] = Field(alias='firstName')
-    last_name: Optional[str] = Field(alias='lastName')
-    phone: Optional[int] = Field(alias='phone')
-    email: Optional[str] = Field(alias='email')
-    appointment_datetime: Optional[datetime] = Field(alias='datetime')
+# class CustomerAPI(BaseModel):
+#     appointment_id: Optional[int] = Field(alias='id')
+#     first_name: Optional[str] = Field(alias='firstName')
+#     last_name: Optional[str] = Field(alias='lastName')
+#     phone: Optional[int] = Field(alias='phone')
+#     email: Optional[str] = Field(alias='email')
+#     appointment_datetime: Optional[datetime] = Field(alias='datetime')
+
+class CustomerAPIDATA(BaseModel):
+    appointment_datetime: datetime = Field(alias='datetime')

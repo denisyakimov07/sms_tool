@@ -20,6 +20,7 @@ class _Environment:
         self.ACU_USER_ID = os.getenv('ACU_USER_ID')
         self.ACU_API_KEY = os.getenv('ACU_API_KEY')
 
+        self.DEBUG_STATUS = os.getenv('DEBUG_STATUS')
 
 __environment = _Environment()
 

@@ -4,8 +4,8 @@ from sms.views import add_to_db_all_customers
 
 
 def test():
-    add_to_db_all_customers()
-
+    # add_to_db_all_customers()
+    print('dddddddddddddddddddddddddddddd')
 
 
 

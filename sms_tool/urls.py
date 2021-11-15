@@ -18,7 +18,7 @@ import logging
 from django.contrib import admin
 from django.urls import path, include
 
-from acuityscheduling_API import api_get_appointments
+from acuityscheduling_API import one_time_load_all_customers, get_warning_sms_date_customers
 from sms.views import add_to_db_all_customers
 
 urlpatterns = [
@@ -27,4 +27,6 @@ urlpatterns = [
 
 
 #one time create full list of customers
-add_to_db_all_customers()
+# add_to_db_all_customers()
+# one_time_load_all_customers()
+get_warning_sms_date_customers()
