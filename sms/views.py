@@ -107,9 +107,6 @@ def update_appointments_for_two_last_days():
                     customer_from_db[0].final_warning_7_days_sms_date = customer.appointment_datetime + datetime.timedelta(
                         setup.final_warning_7_days_sms)
 
-
-
-
                     customer_from_db[0].save()
                     print(f"{customer_from_db[0].phone_number} - updated successfully")
             else:
