@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'sms.apps.SmsConfig',
-     'django_apscheduler',
+    'django_apscheduler',
 
 ]
 
