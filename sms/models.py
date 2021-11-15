@@ -13,9 +13,12 @@ class Customer(models.Model):
     phone_number = models.CharField(max_length=200, null=True, blank=True)
     last_appointment_id = models.BigIntegerField(null=False, blank=True)
     last_appointment_date = models.DateTimeField(null=False, blank=True)
-    warning_sms_date = models.DateTimeField(null=False, blank=True)
-    first_sms_date = models.DateTimeField(null=False, blank=True)
-    second_sms_date = models.DateTimeField(null=False, blank=True)
+    warning_sms_date = models.DateTimeField(null=False, blank=True, default=datetime.now())
+    first_sms_date = models.DateTimeField(null=False, blank=True, default=datetime.now())
+    second_sms_date = models.DateTimeField(null=False, blank=True, default=datetime.now())
+    seven_days_sms = models.DateTimeField(null=False, blank=True, default=datetime.now())
+    zero_days_sms = models.DateTimeField(null=False, blank=True, default=datetime.now())
+    final_warning_7_days_sms = models.DateTimeField(null=False, blank=True, default=datetime.now())
     cancel_by_customer =  models.BooleanField(blank=True, default=False)
 
 

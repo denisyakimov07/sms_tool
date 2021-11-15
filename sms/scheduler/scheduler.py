@@ -4,7 +4,6 @@ from django_apscheduler.jobstores import DjangoJobStore
 
 
 # This is the function you want to schedule - add as many as you want and then register them in the start() function below
-import sms.views
 from setup import update_appointments_interval
 from sms import views
 

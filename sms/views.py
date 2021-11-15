@@ -23,6 +23,10 @@ def create_customer(customer: CustomerAPI):
     new_customer.warning_sms_date = customer.appointment_datetime + datetime.timedelta(setup.warning_sms_date_setup)
     new_customer.first_sms_date = customer.appointment_datetime + datetime.timedelta(setup.first_sms_date_setup)
     new_customer.second_sms_date = customer.appointment_datetime + datetime.timedelta(setup.second_sms_date_setup)
+    new_customer.third_sms_date = customer.appointment_datetime + datetime.timedelta(setup.third_sms_date)
+    new_customer.one_year_sms_date = customer.appointment_datetime + datetime.timedelta(setup.one_year_sms_date)
+    new_customer.final_warning_7_days_sms_date = customer.appointment_datetime + datetime.timedelta(
+        setup.final_warning_7_days_sms)
     new_customer.save()
 
 def add_to_db_all_customers():
@@ -39,6 +43,11 @@ def update_customers_dates(customer: Customer, new_customer: CustomerAPI):
         customer.warning_sms_date = new_customer.appointment_datetime + datetime.timedelta(setup.warning_sms_date_setup)
         customer.first_sms_date = new_customer.appointment_datetime + datetime.timedelta(setup.first_sms_date_setup)
         customer.second_sms_date = new_customer.appointment_datetime + datetime.timedelta(setup.second_sms_date_setup)
+        customer.third_sms_date = new_customer.appointment_datetime + datetime.timedelta(setup.third_sms_date)
+        customer.one_year_sms_date = new_customer.appointment_datetime + datetime.timedelta(setup.one_year_sms_date)
+        customer.final_warning_7_days_sms_date = new_customer.appointment_datetime + datetime.timedelta(setup.final_warning_7_days_sms)
+
+
         customer.save()
 
 
@@ -65,6 +74,16 @@ def update_appointments_for_two_last_days():
 
                     customer_from_db[0].second_sms_date = \
                         customer.appointment_datetime + datetime.timedelta(setup.second_sms_date_setup)
+
+                    customer_from_db[0].seven_days_sms = customer.appointment_datetime + datetime.timedelta(
+                        setup.third_sms_date)
+                    customer_from_db[0].zero_days_sms = customer.appointment_datetime + datetime.timedelta(
+                        setup.one_year_sms_date)
+                    customer_from_db[0].final_warning_7_days_sms = customer.appointment_datetime + datetime.timedelta(
+                        setup.final_warning_7_days_sms)
+
+
+
 
                     customer_from_db[0].save()
                     print(f"{customer_from_db[0].phone_number} - updated successfully")
