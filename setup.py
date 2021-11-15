@@ -1,4 +1,4 @@
-from turtle import update
+
 
 warning_sms_date_setup = 334
 first_sms_date_setup = 344

@@ -2,7 +2,7 @@ import datetime
 import setup
 
 
-from django.shortcuts import render
+
 
 # Create your views here.
 import acuityscheduling_API
