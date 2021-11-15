@@ -13,21 +13,37 @@ def get_customer_by_phone(phone):
     return Customer.objects.filter(phone_number=phone)
 
 def create_customer(customer: CustomerAPI):
-    new_customer = Customer()
-    new_customer.first_name = customer.first_name
-    new_customer.last_name = customer.last_name
-    new_customer.phone_number = customer.phone
-    new_customer.email = customer.email
-    new_customer.last_appointment_id = customer.appointment_id
-    new_customer.last_appointment_date = customer.appointment_datetime
-    new_customer.warning_sms_date = customer.appointment_datetime + datetime.timedelta(setup.warning_sms_date_setup)
-    new_customer.first_sms_date = customer.appointment_datetime + datetime.timedelta(setup.first_sms_date_setup)
-    new_customer.second_sms_date = customer.appointment_datetime + datetime.timedelta(setup.second_sms_date_setup)
-    new_customer.third_sms_date = customer.appointment_datetime + datetime.timedelta(setup.third_sms_date)
-    new_customer.one_year_sms_date = customer.appointment_datetime + datetime.timedelta(setup.one_year_sms_date)
-    new_customer.final_warning_7_days_sms_date = customer.appointment_datetime + datetime.timedelta(
-        setup.final_warning_7_days_sms)
-    new_customer.save()
+    if customer.appointment_datetime >= datetime.datetime.now() - datetime.timedelta(setup.days_for_old_customers):
+        new_customer = Customer()
+        new_customer.first_name = customer.first_name
+        new_customer.last_name = customer.last_name
+        new_customer.phone_number = customer.phone
+        new_customer.email = customer.email
+        new_customer.last_appointment_id = customer.appointment_id
+        new_customer.last_appointment_date = customer.appointment_datetime
+        new_customer.warning_sms_date = datetime.datetime.now() + datetime.timedelta(1)
+        new_customer.first_sms_date = datetime.datetime.now() + datetime.timedelta(8)
+        new_customer.second_sms_date = datetime.datetime.now() + datetime.timedelta(14)
+        new_customer.third_sms_date = datetime.datetime.now() + datetime.timedelta(21)
+        new_customer.one_year_sms_date = datetime.datetime.now() + datetime.timedelta(28)
+        new_customer.final_warning_7_days_sms_date = datetime.datetime.now() + datetime.timedelta(35)
+        new_customer.save()
+    else:
+        new_customer = Customer()
+        new_customer.first_name = customer.first_name
+        new_customer.last_name = customer.last_name
+        new_customer.phone_number = customer.phone
+        new_customer.email = customer.email
+        new_customer.last_appointment_id = customer.appointment_id
+        new_customer.last_appointment_date = customer.appointment_datetime
+        new_customer.warning_sms_date = customer.appointment_datetime + datetime.timedelta(setup.warning_sms_date_setup)
+        new_customer.first_sms_date = customer.appointment_datetime + datetime.timedelta(setup.first_sms_date_setup)
+        new_customer.second_sms_date = customer.appointment_datetime + datetime.timedelta(setup.second_sms_date_setup)
+        new_customer.third_sms_date = customer.appointment_datetime + datetime.timedelta(setup.third_sms_date)
+        new_customer.one_year_sms_date = customer.appointment_datetime + datetime.timedelta(setup.one_year_sms_date)
+        new_customer.final_warning_7_days_sms_date = customer.appointment_datetime + datetime.timedelta(
+            setup.final_warning_7_days_sms)
+        new_customer.save()
 
 def add_to_db_all_customers():
     for i in acuityscheduling_API.api_get_appointments():
