@@ -27,4 +27,4 @@ urlpatterns = [
 
 
 #one time create full list of customers
-# add_to_db_all_customers()
+add_to_db_all_customers()
