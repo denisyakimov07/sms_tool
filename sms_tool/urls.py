@@ -19,7 +19,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from acuityscheduling_API import api_get_appointments
-from sms.views import add_to_db_all_customers, update_appointments_for_two_last_days
+from sms.views import add_to_db_all_customers
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,5 +27,4 @@ urlpatterns = [
 
 
 #one time create full list of customers
-
-add_to_db_all_customers()
+# add_to_db_all_customers()

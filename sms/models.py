@@ -10,15 +10,15 @@ class Customer(models.Model):
     first_name = models.CharField(max_length=200, null=False, blank=True)
     last_name = models.CharField(max_length=200, null=False, blank=True)
     email = models.CharField(max_length=200, null=False, blank=True)
-    phone_number = models.CharField(max_length=200, null=True, blank=True)
+    phone_number = models.CharField(max_length=200, null=True, blank=True, unique=True)
     last_appointment_id = models.BigIntegerField(null=False, blank=True)
     last_appointment_date = models.DateTimeField(null=False, blank=True)
-    warning_sms_date = models.DateTimeField(null=False, blank=True, default=datetime.now())
-    first_sms_date = models.DateTimeField(null=False, blank=True, default=datetime.now())
-    second_sms_date = models.DateTimeField(null=False, blank=True, default=datetime.now())
-    seven_days_sms = models.DateTimeField(null=False, blank=True, default=datetime.now())
-    zero_days_sms = models.DateTimeField(null=False, blank=True, default=datetime.now())
-    final_warning_7_days_sms = models.DateTimeField(null=False, blank=True, default=datetime.now())
+    warning_sms_date = models.DateTimeField(null=True, blank=True)
+    first_sms_date = models.DateTimeField(null=True, blank=True)
+    second_sms_date = models.DateTimeField(null=True, blank=True)
+    third_sms_date = models.DateTimeField(null=True, blank=True)
+    one_year_sms_date = models.DateTimeField(null=True, blank=True)
+    final_warning_7_days_sms_date = models.DateTimeField(null=True)
     cancel_by_customer =  models.BooleanField(blank=True, default=False)
 
 
@@ -32,7 +32,6 @@ class MainSetup(models.Model):
     update_all_users = models.BooleanField(blank=True, default=False)
 
 #API_MODELS
-
 class CustomerAPI(BaseModel):
     appointment_id: Optional[int] = Field(alias='id')
     first_name: Optional[str] = Field(alias='firstName')

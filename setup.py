@@ -6,6 +6,7 @@ second_sms_date_setup = 351
 third_sms_date = 358
 one_year_sms_date = 365
 final_warning_7_days_sms = 372
+
 days_for_old_customers = 334
 
 
