@@ -1,6 +1,6 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 
-from sms.views import add_to_db_all_customers
+
 
 
 def test():
