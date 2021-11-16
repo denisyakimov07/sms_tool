@@ -8,8 +8,8 @@ class SmsConfig(AppConfig):
     name = 'sms'
 
     def ready(self):
-        from sms import updater
-        updater.start()
+        from .scheduler import scheduler
+        scheduler.start()
 
 
 
