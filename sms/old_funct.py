@@ -144,3 +144,25 @@ def add_to_db_all_customers(customers_from_api: list[Customer]):
                 customer_from_db[0].one_year_sms_date = customer_from_api.last_appointment_date + datetime.timedelta(setup.one_year_sms_date)
                 customer_from_db[0].final_warning_7_days_sms_date = customer_from_api.last_appointment_date + datetime.timedelta(setup.final_warning_7_days_sms)
                 customer_from_db[0].save()
+
+
+
+def add_data_from_file():
+    reader = csv.DictReader(open('sms_customer.csv'))
+
+    for i in reader:
+        cust = Customer()
+        cust.first_name = i['first_name']
+        cust.last_name = i['last_name']
+        cust.email = i['email']
+        cust.phone_number = i['phone_number']
+        cust.last_appointment_id = i['last_appointment_id']
+        cust.last_appointment_date = i['last_appointment_date']
+        cust.warning_sms_date = i['warning_sms_date']
+        cust.first_sms_date = i['first_sms_date']
+        cust.second_sms_date = i['second_sms_date']
+        cust.third_sms_date = i['third_sms_date']
+        cust.one_year_sms_date = i['one_year_sms_date']
+        cust.final_warning_7_days_sms_date = i['final_warning_7_days_sms_date']
+        cust.cancel_by_customer = False
+        cust.save()

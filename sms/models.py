@@ -36,14 +36,5 @@ class MainSetup(models.Model):
     final_warning_7_days_after= models.TextField(null=False, blank=True)  # last_appointment_date +1 year + 7 days
     update_all_users = models.BooleanField(blank=True, default=False)
 
-#API_MODELS
-# class CustomerAPI(BaseModel):
-#     appointment_id: Optional[int] = Field(alias='id')
-#     first_name: Optional[str] = Field(alias='firstName')
-#     last_name: Optional[str] = Field(alias='lastName')
-#     phone: Optional[int] = Field(alias='phone')
-#     email: Optional[str] = Field(alias='email')
-#     appointment_datetime: Optional[datetime] = Field(alias='datetime')
-
 class CustomerAPIDATA(BaseModel):
     appointment_datetime: datetime = Field(alias='datetime')

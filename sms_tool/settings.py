@@ -94,12 +94,12 @@ WSGI_APPLICATION = 'sms_tool.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': f'django.db.backends.{get_env().DB_DATABASE_TYPE}',
         'NAME': get_env().DB_DATABASE,
         'USER': get_env().DB_USER,
         'PASSWORD': get_env().DB_PASSWORD,
         'HOST': get_env().DB_HOST,
-        'PORT': '5432',
+        'PORT': get_env().DB_PORT,
     }
 }
 
