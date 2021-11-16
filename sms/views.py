@@ -58,7 +58,6 @@ def add_to_db_all_customers(customers_from_api: list[Customer]):
                 customer_from_db[0].save()
 
             if customer_from_api.last_appointment_date > datetime_now - datetime.timedelta(setup.days_for_old_customers):
-                customer_from_db[0].last_appointment_date = customer_from_api.last_appointment_date
                 customer_from_db[0].warning_sms_date = customer_from_api.last_appointment_date + datetime.timedelta(setup.warning_sms_date_setup)
                 customer_from_db[0].first_sms_date = customer_from_api.last_appointment_date + datetime.timedelta(setup.first_sms_date_setup)
                 customer_from_db[0].second_sms_date = customer_from_api.last_appointment_date + datetime.timedelta(setup.second_sms_date_setup)

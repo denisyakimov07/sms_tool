@@ -29,4 +29,4 @@ urlpatterns = [
 #one time create full list of customers
 # add_to_db_all_customers()
 # one_time_load_all_customers()
-get_warning_sms_date_customers()
+# get_warning_sms_date_customers()
