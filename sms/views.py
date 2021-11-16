@@ -15,7 +15,8 @@ def get_customer_by_phone(phone):
 # # update dates in exist customer if not creat new one
 def update_appointments_for_two_last_days():
     new_appointments: list[Customer] = acuityscheduling_API.api_get_appointments(min_date=datetime_now
-                                                       - datetime.timedelta(setup.days_to_update_appointments))
+                                                       - datetime.timedelta(setup.days_to_update_appointments),
+                                                        max_date=datetime_now + datetime.timedelta(60))
 
     if len(new_appointments) >0:
         for customer in new_appointments:
@@ -47,10 +48,13 @@ def update_appointments_for_two_last_days():
                 new_customer.email = customer.email
                 new_customer.last_appointment_id = customer.last_appointment_id
                 new_customer.last_appointment_date = customer.last_appointment_date
+
                 new_customer.warning_sms_date = customer.last_appointment_date + datetime.timedelta(
                     setup.warning_sms_date_setup)
+
                 new_customer.first_sms_date = customer.last_appointment_date + datetime.timedelta(
                     setup.first_sms_date_setup)
+
                 new_customer.second_sms_date = customer.last_appointment_date + datetime.timedelta(
                     setup.second_sms_date_setup)
 

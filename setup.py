@@ -11,6 +11,6 @@ days_for_old_customers = 334
 
 
 
-days_to_update_appointments = 2
+days_to_update_appointments = 3
 update_appointments_interval = 30
 debug_status = True
