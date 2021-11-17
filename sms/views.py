@@ -80,7 +80,7 @@ def read_sms_from_customer(request):
         phone_number = request.POST.get('From')
         sms_message = request.POST.get('Body')
 
-        customer = Customer.objects.filter(phone_number__contains=phone_number[2:])
+        customer = Customer.objects.filter(phone_number__contains=phone_number[2:])[0]
         print(customer)
 
         if customer and 'stop' in str(sms_message).lower():
