@@ -77,11 +77,13 @@ def update_appointments_for_two_last_days():
 @csrf_exempt
 def read_sms_from_customer(request):
     if request.method == 'POST':
-        print(request.POST)
         phone_number = request.POST.get('From')
-        print(phone_number)
-
         sms_message = request.POST.get('Body')
-        print(sms_message)
+
+        customer = Customer.objects.filter(phone_number__contains=phone_number[2:])
+        print(customer)
+
+
+
 
         return JsonResponse({'test':1}, safe=False)
