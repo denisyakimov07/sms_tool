@@ -7,10 +7,10 @@ def test():
     print('dddddddddddddddddddddddddddddd')
 
 
-
-def start():
-
-    scheduler = BackgroundScheduler()
-    scheduler.add_jobstore(DjangoJobStore(), "default")
-    scheduler.add_job(test, 'interval', seconds=120, id="worker3" , replace_existing=True)
-    scheduler.start()
+#
+# def start():
+#
+#     scheduler = BackgroundScheduler()
+#     scheduler.add_jobstore(DjangoJobStore(), "default")
+#     scheduler.add_job(test, 'interval', seconds=120, id="worker3" , replace_existing=True)
+#     scheduler.start()
