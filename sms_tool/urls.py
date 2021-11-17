@@ -9,7 +9,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 ]
 
-send_sms_to_customer(phone_number="4259023584", sms_body='Test')
+# send_sms_to_customer(phone_number="4259023584", sms_body='Test')
 
 
 
