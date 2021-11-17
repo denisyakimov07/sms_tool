@@ -14,7 +14,7 @@ def send_sms_to_customer(phone_number, sms_body):
 
     message = client.messages.create(
         to=f"{phone_number}",
-        from_="+16108222016",
+        from_="+17193012173",
         body=f"{sms_body}")
 
     print(message.sid)
