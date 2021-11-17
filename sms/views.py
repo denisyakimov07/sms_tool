@@ -2,6 +2,7 @@ import datetime
 import json
 
 from django.http import HttpResponse, JsonResponse
+from django.shortcuts import redirect
 from django.views.decorators.csrf import csrf_exempt
 
 from sms import acuityscheduling_API, setup
@@ -70,6 +71,11 @@ def update_appointments_for_two_last_days():
                     setup.final_warning_7_days_sms)
 
                 new_customer.save()
+
+
+def redirect_view(request):
+    response = redirect('/admin/')
+    return response
 
 #subscription/unsubscribe procces
 @csrf_exempt

@@ -10,6 +10,7 @@ from sms.views import get_customers_warning_sms_date_today, get_customers_first_
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('sms/api/v1/webhook', views.read_sms_from_customer),
+    path('', views.redirect_view),
 ]
 
 # send_sms_to_customer(phone_number="4259023584", sms_body='Test')
