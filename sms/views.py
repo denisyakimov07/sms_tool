@@ -1,4 +1,5 @@
 import datetime
+import json
 
 from sms import acuityscheduling_API, setup
 
@@ -71,3 +72,7 @@ def update_appointments_for_two_last_days():
 
 
 
+def read_sms_from_customer(request):
+    if request.method == 'POST':
+        payload = json.loads(request.body)
+        print(payload)
