@@ -83,6 +83,12 @@ def read_sms_from_customer(request):
         customer = Customer.objects.filter(phone_number__contains=phone_number[2:])
         print(customer)
 
+        if customer and 'stop' in str(sms_message).lower():
+            customer.cancel_by_customer = True
+            customer.save()
+
+
+
 
 
 
