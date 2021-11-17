@@ -10,7 +10,7 @@ urlpatterns = [
     path('sms/api/v1/webhook', views.read_sms_from_customer),
 ]
 
-send_sms_to_customer(phone_number="4259023584", sms_body='Test')
+# send_sms_to_customer(phone_number="4259023584", sms_body='Test')
 
 
 
