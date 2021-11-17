@@ -83,7 +83,7 @@ def read_sms_from_customer(request):
         if customer:
             customer= customer[0]
 
-            print(customer)
+            print(f"{customer} - {sms_message}")
 
             if customer and 'stop' in str(sms_message).lower():
                 customer.cancel_by_customer = True
