@@ -1,7 +1,7 @@
 import csv
 import datetime
 
-from acuityscheduling_API import api_get_appointments
+from sms.acuityscheduling_API import api_get_appointments
 from sms.models import Customer
 from sms.views import datetime_now, get_customer_by_phone
 

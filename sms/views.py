@@ -1,7 +1,6 @@
 import datetime
 
-import acuityscheduling_API
-import setup
+from sms import acuityscheduling_API, setup
 
 from sms.models import Customer
 
@@ -15,8 +14,9 @@ def get_customer_by_phone(phone):
 # # update dates in exist customer if not creat new one
 def update_appointments_for_two_last_days():
     new_appointments: list[Customer] = acuityscheduling_API.api_get_appointments(min_date=datetime_now
-                                                       - datetime.timedelta(setup.days_to_update_appointments),
-                                                        max_date=datetime_now + datetime.timedelta(60))
+                                                                                          - datetime.timedelta(
+        setup.days_to_update_appointments),
+                                                                                 max_date=datetime_now + datetime.timedelta(60))
 
     if len(new_appointments) >0:
         for customer in new_appointments:
