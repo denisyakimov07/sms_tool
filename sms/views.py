@@ -1,6 +1,7 @@
 import datetime
 import json
 
+from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from sms import acuityscheduling_API, setup
@@ -79,3 +80,4 @@ def read_sms_from_customer(request):
         print(request.POST)
         # payload = json.loads(request.body)
         # print(payload)
+        return JsonResponse({'test':1}, safe=False)
