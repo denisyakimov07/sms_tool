@@ -6,7 +6,7 @@ from sms.twilio import send_sms_to_customer
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('', admin.site.urls),
     path('sms/api/v1/webhook', views.read_sms_from_customer),
 ]
 

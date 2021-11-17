@@ -12,5 +12,5 @@ def test():
 #
 #     scheduler = BackgroundScheduler()
 #     scheduler.add_jobstore(DjangoJobStore(), "default")
-#     scheduler.add_job(test, 'interval', seconds=120, id="worker3" , replace_existing=True)
+#     scheduler.add_job(test, 'interval', seconds=220, id="worker1" , replace_existing=True)
 #     scheduler.start()

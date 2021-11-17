@@ -54,6 +54,8 @@ class CustomeAdmin(admin.ModelAdmin):
     def last_appointment_id(self, obj):
         return obj.last_appointment_id
 
+    search_fields = ("phone_number", "email")
+
 
 
 
