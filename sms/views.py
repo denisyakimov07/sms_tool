@@ -78,6 +78,6 @@ def update_appointments_for_two_last_days():
 def read_sms_from_customer(request):
     if request.method == 'POST':
         print(request.POST)
-        payload = json.loads(request.body)
+        payload = json.loads(request.POST)
         print(payload)
         return JsonResponse({'test':1}, safe=False)
