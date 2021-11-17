@@ -23,6 +23,14 @@ class _Environment:
         self.ACU_API_KEY = os.getenv('ACU_API_KEY')
 
         self.DEBUG_STATUS = os.getenv('DEBUG_STATUS')
+        self.SECRET_KEY = os.getenv('SECRET_KEY')
+
+
+        '''API_PASSWORD'''
+        self.TWILIO_ACCOUNT_SID = os.getenv('TWILIO_ACCOUNT_SID')
+        self.TWILIO_AUTH_TOKEN = os.getenv('TWILIO_AUTH_TOKEN')
+
+
 
 __environment = _Environment()
 

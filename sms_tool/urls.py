@@ -1,16 +1,15 @@
 from django.contrib import admin
 from django.urls import path
 
-import csv
 
-from sms.models import Customer
-from sms.views import update_appointments_for_two_last_days
+from sms.twilio import send_sms_to_customer
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
 
-# update_appointments_for_two_last_days()
+# send_sms_to_customer(phone_number="4259023584", sms_body='Test')
 
 
 
