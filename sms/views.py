@@ -72,8 +72,7 @@ def update_appointments_for_two_last_days():
                     setup.final_warning_7_days_sms)
 
                 new_customer.save()
-
-
+@csrf_exempt
 def read_sms_from_customer(request):
     if request.method == 'POST':
         phone_number = request.POST.get('From')
