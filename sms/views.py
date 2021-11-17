@@ -81,21 +81,14 @@ def read_sms_from_customer(request):
         customer = Customer.objects.filter(phone_number__contains=phone_number[2:])
         if customer:
             customer= customer[0]
-
             print(f"{customer} - {sms_message}")
-
             if customer and 'stop' in str(sms_message).lower():
                 customer.cancel_by_customer = True
                 customer.save()
-
             if customer and 'start' in str(sms_message).lower():
                 customer.cancel_by_customer = False
                 customer.save()
         else:
             print(f"Can't find {phone_number}")
-
-
-
-
 
         return JsonResponse({'test':1}, safe=False)
