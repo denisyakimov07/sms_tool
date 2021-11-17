@@ -29,11 +29,11 @@ class Customer(models.Model):
 
 class MainSetup(models.Model):
     warning_sms = models.TextField(null=False, blank=True) # last_appointment_date -30 days
-    first_sms_text = models.TextField(null=False, blank=True) #last_appointment_date -21 days
-    second_sms_text = models.TextField(null=False, blank=True) #last_appointment_date -14 days
-    seven_days = models.TextField(null=False, blank=True)  # last_appointment_date - 7 days
-    zero_days= models.TextField(null=False, blank=True) # last_appointment_date = last_appointment_date
-    final_warning_7_days_after= models.TextField(null=False, blank=True)  # last_appointment_date +1 year + 7 days
+    first_sms_date = models.TextField(null=False, blank=True) #last_appointment_date -21 days
+    second_sms_date = models.TextField(null=False, blank=True) #last_appointment_date -14 days
+    third_sms_date = models.TextField(null=False, blank=True)  # last_appointment_date - 7 days
+    one_year_sms_date= models.TextField(null=False, blank=True) # last_appointment_date = last_appointment_date
+    final_warning_7_days_sms_date= models.TextField(null=False, blank=True)  # last_appointment_date +1 year + 7 days
     update_all_users = models.BooleanField(blank=True, default=False)
 
 class CustomerAPIDATA(BaseModel):

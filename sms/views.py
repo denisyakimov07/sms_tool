@@ -21,7 +21,6 @@ def update_appointments_for_two_last_days():
                                                                                           - datetime.timedelta(
         setup.days_to_update_appointments),
                                                                                  max_date=datetime_now + datetime.timedelta(60))
-
     if len(new_appointments) >0:
         for customer in new_appointments:
             customer_from_db: list[Customer] = Customer.objects.filter(phone_number=customer.phone_number)
@@ -41,7 +40,6 @@ def update_appointments_for_two_last_days():
                         setup.one_year_sms_date)
                     customer_from_db[0].final_warning_7_days_sms_date = customer.last_appointment_date + datetime.timedelta(
                         setup.final_warning_7_days_sms)
-
                     customer_from_db[0].save()
                     print(f"{customer_from_db[0].phone_number} - updated successfully")
             else:
@@ -72,6 +70,8 @@ def update_appointments_for_two_last_days():
                     setup.final_warning_7_days_sms)
 
                 new_customer.save()
+
+#subscription/unsubscribe procces
 @csrf_exempt
 def read_sms_from_customer(request):
     if request.method == 'POST':
@@ -89,5 +89,50 @@ def read_sms_from_customer(request):
                 customer.save()
         else:
             print(f"Can't find {phone_number}")
-
         return JsonResponse({'test':1}, safe=False)
+
+
+days =2
+
+def get_customers_warning_sms_date_today():
+    customers_list = Customer.objects.filter(warning_sms_date__date=datetime_now + datetime.timedelta(days), cancel_by_customer= False)
+    print(datetime_now + datetime.timedelta(days))
+    print(customers_list)
+    for i in customers_list:
+        print(i)
+    print()
+
+def get_customers_first_sms_date():
+    customers_list = Customer.objects.filter(first_sms_date__date=datetime_now + datetime.timedelta(days), cancel_by_customer= False)
+    print(customers_list)
+    for i in customers_list:
+        print(i)
+    print()
+
+def get_customers_second_sms_date():
+    customers_list = Customer.objects.filter(second_sms_date__date=datetime_now + datetime.timedelta(days), cancel_by_customer= False)
+    print(customers_list)
+    for i in customers_list:
+        print(i)
+    print()
+
+def get_customers_third_sms_date():
+    customers_list = Customer.objects.filter(third_sms_date__date=datetime_now + datetime.timedelta(days), cancel_by_customer= False)
+    print(customers_list)
+    for i in customers_list:
+        print(i)
+    print()
+
+def get_customers_one_year_sms_date():
+    customers_list = Customer.objects.filter(one_year_sms_date__date=datetime_now + datetime.timedelta(days), cancel_by_customer= False)
+    print(customers_list)
+    for i in customers_list:
+        print(i)
+    print()
+
+def get_customers_final_warning_7_days_sms_date():
+    customers_list = Customer.objects.filter(final_warning_7_days_sms_date__date=datetime_now + datetime.timedelta(days), cancel_by_customer= False)
+    print(customers_list)
+    for i in customers_list:
+        print(i)
+    print()
