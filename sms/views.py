@@ -1,6 +1,8 @@
 import datetime
 import json
 
+from django.views.decorators.csrf import csrf_exempt
+
 from sms import acuityscheduling_API, setup
 
 from sms.models import Customer
@@ -71,7 +73,7 @@ def update_appointments_for_two_last_days():
                 new_customer.save()
 
 
-
+@csrf_exempt
 def read_sms_from_customer(request):
     if request.method == 'POST':
         payload = json.loads(request.body)
