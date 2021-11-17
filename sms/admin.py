@@ -4,6 +4,11 @@ from django.contrib import admin
 from .models import Customer, MainSetup
 
 
+admin.site.site_header = 'Doctors of Natural Medicine SMS Tool'
+admin.site.site_title = 'Doctors of Natural Medicine'
+admin.site.index_title = 'Doctors of Natural Medicine'
+
+
 class MainSetupAdmin(admin.ModelAdmin):
 
     def has_add_permission(self, request, obj=None):
