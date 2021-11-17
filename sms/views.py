@@ -79,17 +79,21 @@ def read_sms_from_customer(request):
     if request.method == 'POST':
         phone_number = request.POST.get('From')
         sms_message = request.POST.get('Body')
+        customer = Customer.objects.filter(phone_number__contains=phone_number[2:])
+        if customer:
+            customer= customer[0]
 
-        customer = Customer.objects.filter(phone_number__contains=phone_number[2:])[0]
-        print(customer)
+            print(customer)
 
-        if customer and 'stop' in str(sms_message).lower():
-            customer.cancel_by_customer = True
-            customer.save()
+            if customer and 'stop' in str(sms_message).lower():
+                customer.cancel_by_customer = True
+                customer.save()
 
-        if customer and 'start' in str(sms_message).lower():
-            customer.cancel_by_customer = False
-            customer.save()
+            if customer and 'start' in str(sms_message).lower():
+                customer.cancel_by_customer = False
+                customer.save()
+        else:
+            print(f"Can't find {phone_number}")
 
 
 
