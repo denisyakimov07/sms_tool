@@ -87,6 +87,9 @@ def read_sms_from_customer(request):
             customer.cancel_by_customer = True
             customer.save()
 
+        if customer and 'start' in str(sms_message).lower():
+            customer.cancel_by_customer = False
+            customer.save()
 
 
 
