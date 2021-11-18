@@ -78,10 +78,18 @@ class LogIventsAdmin(admin.ModelAdmin):
 
     search_fields = ("customer_info", "message_type", "status")
 
+class ReportRecipientAdmin(admin.ModelAdmin):
+    list_display = ("email", "creat")
+
+    def email(self, obj):
+        return obj.email
+
+    def creat(self, obj):
+        return obj.creat
 
 
 admin.site.register(Customer, CustomeAdmin)
 admin.site.register(MainSetup, MainSetupAdmin)
 admin.site.register(LogIvents, LogIventsAdmin)
-admin.site.register(ReportRecipient)
+admin.site.register(ReportRecipient, ReportRecipientAdmin)
 
