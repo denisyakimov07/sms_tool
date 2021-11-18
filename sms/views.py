@@ -35,6 +35,7 @@ def update_app():
             for customer in new_appointments:
                 customer_from_db: list[Customer] = Customer.objects.filter(phone_number=customer.phone_number)
                 if len(customer_from_db) > 0:
+                    print(customer_from_db)
                     if customer_from_db[0].last_appointment_date < customer.last_appointment_date:
                         customer_from_db[0].last_appointment_date = customer.last_appointment_date
                         customer_from_db[0].last_appointment_id = customer.last_appointment_id
