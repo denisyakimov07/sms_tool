@@ -1,7 +1,6 @@
 import datetime
-import json
 
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.views.decorators.csrf import csrf_exempt
 
@@ -11,6 +10,11 @@ from sms.models import Customer
 
 from django.utils import timezone
 datetime_now = timezone.now()
+
+
+import logging
+db_logger = logging.getLogger('db')
+
 
 def get_customer_by_phone(phone):
     return Customer.objects.filter(phone_number=phone)
@@ -77,25 +81,37 @@ def redirect_view(request):
     response = redirect('/admin/')
     return response
 
+
+
 #subscription/unsubscribe procces
+
+
+import logging
+db_logger = logging.getLogger('db')
+
 @csrf_exempt
 def read_sms_from_customer(request):
     if request.method == 'POST':
-        phone_number = request.POST.get('From')
-        sms_message = request.POST.get('Body')
-        customer = Customer.objects.filter(phone_number__contains=phone_number[2:])
-        if customer:
-            customer= customer[0]
-            print(f"{customer} - {sms_message}")
-            if customer and 'stop' in str(sms_message).lower():
-                customer.cancel_by_customer = True
-                customer.save()
-            if customer and 'start' in str(sms_message).lower():
-                customer.cancel_by_customer = False
-                customer.save()
-        else:
-            print(f"Can't find {phone_number}")
-        return JsonResponse({'test':1}, safe=False)
+        db_logger.warning('info POST')
+        try:
+            phone_number = request.POST.get('From')
+            sms_message = request.POST.get('Body')
+            customer = Customer.objects.filter(phone_number__contains=phone_number[2:])
+            if customer:
+                customer= customer[0]
+                print(f"{customer} - {sms_message}")
+                if customer and 'stop' in str(sms_message).lower():
+                    customer.cancel_by_customer = True
+                    customer.save()
+                if customer and 'start' in str(sms_message).lower():
+                    customer.cancel_by_customer = False
+                    customer.save()
+            else:
+                print(f"Can't find {phone_number}")
+            db_logger.info('info message')
+            return JsonResponse({'test':1}, safe=False)
+        except:
+            return JsonResponse({'error':"no user"}, safe=False)
 
 
 days =2
