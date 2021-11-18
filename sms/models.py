@@ -52,4 +52,9 @@ class LogIvents(models.Model):
     def __str__(self):
         return f"{self.creat} - {self.status} - {self.customer_info}"
 
+class ReportRecipient(models.Model):
+    creat = models.DateTimeField(null=True, blank=True, default=django.utils.timezone.now)
+    email = models.CharField(max_length=200, null=True, blank=True)
+
+
 

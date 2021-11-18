@@ -22,6 +22,6 @@ def start():
     scheduler.add_jobstore(DjangoJobStore(), "default")
     scheduler.add_job(update_app, trigger='cron', hour="16", id="Update acuityscheduling appointments" , replace_existing=True)
     scheduler.add_job(daily_report, trigger='cron', hour="03", id="Sent daily report" , replace_existing=True)
-    scheduler.add_job(sent_sms, trigger='cron', hour="16", id="Sent sms", replace_existing=True)
+    scheduler.add_job(sent_sms, trigger='cron', hour="16", minute='05', id="Sent sms", replace_existing=True)
 
     scheduler.start()
