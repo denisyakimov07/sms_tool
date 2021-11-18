@@ -61,11 +61,26 @@ class CustomeAdmin(admin.ModelAdmin):
 
     search_fields = ("phone_number", "email")
 
+class LogIventsAdmin(admin.ModelAdmin):
+    list_display = ("customer_info", "message_type", "status", "creat")
 
+    def customer_info(self, obj):
+        return obj.customer_info
+
+    def message_type(self, obj):
+        return obj.message_type
+
+    def status(self, obj):
+        return obj.status
+
+    def creat(self, obj):
+        return obj.creat
+
+    search_fields = ("customer_info", "message_type", "status")
 
 
 
 admin.site.register(Customer, CustomeAdmin)
 admin.site.register(MainSetup, MainSetupAdmin)
-admin.site.register(LogIvents)
+admin.site.register(LogIvents, LogIventsAdmin)
 

@@ -17,16 +17,18 @@ def unsubscribe_customer_log(cus_info: Customer):
 def send_sms_to_customer_log(cus_info: Customer, message_type: str):
     new_log = LogIvents()
     new_log.customer_info = f"{cus_info.first_name} {cus_info.last_name} - {cus_info.phone_number} - {cus_info.email}"
-    new_log.status = "send_sms"
+    new_log.status = "sent_sms"
     new_log.message_type = message_type
     new_log.save()
 
 
 
-def report_last_week():
-    total_sms_list = LogIvents.objects.filter(creat__range=[d_now - datetime.timedelta(7), d_now], status= "send_sms")
-    x = PrettyTable()
-    for i in total_sms_list:
-        x.add_row(i.customer_info, i.message_type, i.status)
-    send_email(x)
+def daily_report():
+    total_sms_list = LogIvents.objects.filter(creat__date=d_now - datetime.timedelta(0), status= "send_sms")
+    unsubscribe_customers = LogIvents.objects.filter(creat__date=d_now - datetime.timedelta(0), status= "unsubscribe")
+
+    message = f"""Total sent sms - {len(total_sms_list)}
+Total unsubscribe customers - {len(unsubscribe_customers)}
+"""
+    send_email(message)
 

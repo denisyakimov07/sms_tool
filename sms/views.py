@@ -25,7 +25,7 @@ def get_customer_by_phone(phone):
 
 
 # # update dates in exist customer if not creat new one
-def update_appointments_for_two_last_days():
+def update_app():
     new_appointments: list[Customer] = acuityscheduling_API.api_get_appointments(min_date=datetime_now
                                                                                           - datetime.timedelta(
         setup.days_to_update_appointments),
@@ -103,7 +103,6 @@ def read_sms_from_customer(request):
                     customer.cancel_by_customer = True
                     customer.save()
                     unsubscribe_customer_log(customer)
-
                 if customer and 'start' in str(sms_message).lower():
                     customer.cancel_by_customer = False
                     customer.save()
@@ -117,7 +116,7 @@ def read_sms_from_customer(request):
 
 days =1
 
-def get_customers_warning_sms_date_today():
+def sent_customers_warning_sms_date_today():
     customers_list = Customer.objects.filter(warning_sms_date__date=datetime_now + datetime.timedelta(days),
                                              cancel_by_customer= False)
     send_sms_to_customer2(customers_list=customers_list, sms_body= MainSetup.objects.first().warning_sms,
@@ -125,31 +124,31 @@ def get_customers_warning_sms_date_today():
 
 
 
-def get_customers_first_sms_date():
+def sent_customers_first_sms_date():
     customers_list = Customer.objects.filter(first_sms_date__date=datetime_now + datetime.timedelta(days),
                                              cancel_by_customer= False)
     send_sms_to_customer2(customers_list=customers_list, sms_body= MainSetup.objects.first().first_sms_date,
                           message_type= "first_sms_date")
 
-def get_customers_second_sms_date():
+def sent_customers_second_sms_date():
     customers_list = Customer.objects.filter(second_sms_date__date=datetime_now + datetime.timedelta(days),
                                              cancel_by_customer= False)
     send_sms_to_customer2(customers_list=customers_list, sms_body= MainSetup.objects.first().second_sms_date,
                           message_type= "second_sms_date")
 
-def get_customers_third_sms_date():
+def sent_customers_third_sms_date():
     customers_list = Customer.objects.filter(third_sms_date__date=datetime_now + datetime.timedelta(days),
                                              cancel_by_customer= False)
     send_sms_to_customer2(customers_list=customers_list, sms_body= MainSetup.objects.first().third_sms_date,
                           message_type= "third_sms_date")
 
-def get_customers_one_year_sms_date():
+def sent_customers_one_year_sms_date():
     customers_list = Customer.objects.filter(one_year_sms_date__date=datetime_now + datetime.timedelta(days),
                                              cancel_by_customer= False)
     send_sms_to_customer2(customers_list=customers_list, sms_body= MainSetup.objects.first().one_year_sms_date,
                           message_type= "one_year_sms_date")
 
-def get_customers_final_warning_7_days_sms_date():
+def sent_customers_final_warning_7_days_sms_date():
     customers_list = Customer.objects.filter(final_warning_7_days_sms_date__date=datetime_now + datetime.timedelta(days), cancel_by_customer= False)
     send_sms_to_customer2(customers_list=customers_list, sms_body= MainSetup.objects.first().final_warning_7_days_sms_date,
                           message_type= "final_warning_7_days_sms_date")
