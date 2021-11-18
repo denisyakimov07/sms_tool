@@ -1,9 +1,12 @@
+import django
 from django.db import models
+from django.utils import timezone
 
 from pydantic import BaseModel, Field
 from typing import Optional
 from datetime import datetime
 
+datetime_now = timezone.now()
 
 # Create your models here.
 class Customer(models.Model):
@@ -36,5 +39,17 @@ class MainSetup(models.Model):
     final_warning_7_days_sms_date= models.TextField(null=False, blank=True)  # last_appointment_date +1 year + 7 days
     update_all_users = models.BooleanField(blank=True, default=False)
 
+
 class CustomerAPIDATA(BaseModel):
     appointment_datetime: datetime = Field(alias='datetime')
+
+class LogIvents(models.Model):
+    creat = models.DateTimeField(null=True, blank=True, default=django.utils.timezone.now)
+    status = models.CharField(max_length=200, null=True, blank=True)
+    customer_info = models.CharField(max_length=200, null=True, blank=True)
+    message_type = models.CharField(max_length=200, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.creat} - {self.status} - {self.customer_info}"
+
+

@@ -31,6 +31,15 @@ class _Environment:
         self.TWILIO_AUTH_TOKEN = os.getenv('TWILIO_AUTH_TOKEN')
 
 
+        """GMAIL"""
+        self.MAIL_SERVER = os.getenv('MAIL_SERVER')
+        self.MAIL_PORT = os.getenv('MAIL_PORT')
+        self.MAIL_USE_SSL = True
+        self.MAIL_USE_TLS = False
+        self.MAIL_USERNAME = os.getenv('MAIL_USERNAME')
+        self.MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
+
+
 
 __environment = _Environment()
 
