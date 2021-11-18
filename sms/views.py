@@ -120,7 +120,7 @@ def read_sms_from_customer(request):
             return JsonResponse({'error':"no user"}, safe=False)
 
 
-days =1
+days =0
 
 def sent_customers_warning_sms_date_today():
     customers_list = Customer.objects.filter(warning_sms_date__date=datetime_now + datetime.timedelta(days),

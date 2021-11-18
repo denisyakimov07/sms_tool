@@ -10,6 +10,10 @@ def send_sms_to_customer2(customers_list: list[Customer], sms_body: str, message
     for customer in customers_list:
         try:
             print(f"{customer.phone_number} - {sms_body.replace('{firstName}', customer.first_name).replace('{lastName}', customer.last_name)}")
+            sms_tex = f"{sms_body.replace('{firstName}', customer.first_name).replace('{lastName}', customer.last_name)}"
+
+            send_sms_to_customer(customer.phone_number, sms_tex)
+
             send_sms_to_customer_log(cus_info=customer, message_type=message_type)
         except Exception as e:
             send_sms_to_customer_log(cus_info=customer, message_type=str(e))
