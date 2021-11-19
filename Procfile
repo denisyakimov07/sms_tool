@@ -1,1 +1,1 @@
-web: gunicorn app:sms_tool.wsgi --reload=False
+web: gunicorn sms_tool.wsgi
