@@ -11,7 +11,7 @@ from sms.models import Customer, MainSetup
 from django.utils import timezone
 
 from sms.my_logger import unsubscribe_customer_log, send_sms_to_customer_log
-from sms.twilio import send_sms_to_customer2
+from sms.twilio import send_sms_to_customer
 
 datetime_now = timezone.now()
 
@@ -41,16 +41,13 @@ def update_app():
                         customer_from_db[0].last_appointment_id = customer.last_appointment_id
                         customer_from_db[0].warning_sms_date = \
                             customer.last_appointment_date + datetime.timedelta(setup.warning_sms_date_setup)
-                        customer_from_db[0].first_sms_date = \
-                            customer.last_appointment_date + datetime.timedelta(setup.first_sms_date_setup)
                         customer_from_db[0].second_sms_date = \
                             customer.last_appointment_date + datetime.timedelta(setup.second_sms_date_setup)
                         customer_from_db[0].third_sms_date = customer.last_appointment_date + datetime.timedelta(
                             setup.third_sms_date)
                         customer_from_db[0].one_year_sms_date = customer.last_appointment_date + datetime.timedelta(
                             setup.one_year_sms_date)
-                        customer_from_db[0].final_warning_7_days_sms_date = customer.last_appointment_date + datetime.timedelta(
-                            setup.final_warning_7_days_sms)
+
                         customer_from_db[0].save()
                         print(f"{customer_from_db[0].phone_number} - updated successfully")
                 else:
@@ -65,9 +62,6 @@ def update_app():
                     new_customer.warning_sms_date = customer.last_appointment_date + datetime.timedelta(
                         setup.warning_sms_date_setup)
 
-                    new_customer.first_sms_date = customer.last_appointment_date + datetime.timedelta(
-                        setup.first_sms_date_setup)
-
                     new_customer.second_sms_date = customer.last_appointment_date + datetime.timedelta(
                         setup.second_sms_date_setup)
 
@@ -76,9 +70,6 @@ def update_app():
 
                     new_customer.one_year_sms_date = customer.last_appointment_date + datetime.timedelta(
                         setup.one_year_sms_date)
-
-                    new_customer.final_warning_7_days_sms = customer.last_appointment_date + datetime.timedelta(
-                        setup.final_warning_7_days_sms)
 
                     new_customer.save()
                     print("stop update")
@@ -125,36 +116,24 @@ days =0
 def sent_customers_warning_sms_date_today():
     customers_list = Customer.objects.filter(warning_sms_date__date=datetime_now + datetime.timedelta(days),
                                              cancel_by_customer= False)
-    send_sms_to_customer2(customers_list=customers_list, sms_body= MainSetup.objects.first().warning_sms,
-                          message_type= "warning_sms_date")
-
-
-
-# def sent_customers_first_sms_date():
-#     customers_list = Customer.objects.filter(first_sms_date__date=datetime_now + datetime.timedelta(days),
-#                                              cancel_by_customer= False)
-#     send_sms_to_customer2(customers_list=customers_list, sms_body= MainSetup.objects.first().first_sms_date,
-#                           message_type= "first_sms_date")
+    send_sms_to_customer(customers_list=customers_list, sms_body= MainSetup.objects.first().warning_sms,
+                         message_type= "warning_sms_date")
 
 def sent_customers_second_sms_date():
     customers_list = Customer.objects.filter(second_sms_date__date=datetime_now + datetime.timedelta(days),
                                              cancel_by_customer= False)
-    send_sms_to_customer2(customers_list=customers_list, sms_body= MainSetup.objects.first().second_sms_date,
-                          message_type= "second_sms_date")
+    send_sms_to_customer(customers_list=customers_list, sms_body= MainSetup.objects.first().second_sms_date,
+                         message_type= "second_sms_date")
 
 def sent_customers_third_sms_date():
     customers_list = Customer.objects.filter(third_sms_date__date=datetime_now + datetime.timedelta(days),
                                              cancel_by_customer= False)
-    send_sms_to_customer2(customers_list=customers_list, sms_body= MainSetup.objects.first().third_sms_date,
-                          message_type= "third_sms_date")
+    send_sms_to_customer(customers_list=customers_list, sms_body= MainSetup.objects.first().third_sms_date,
+                         message_type= "third_sms_date")
 
 def sent_customers_one_year_sms_date():
     customers_list = Customer.objects.filter(one_year_sms_date__date=datetime_now + datetime.timedelta(days),
                                              cancel_by_customer= False)
-    send_sms_to_customer2(customers_list=customers_list, sms_body= MainSetup.objects.first().one_year_sms_date,
-                          message_type= "one_year_sms_date")
+    send_sms_to_customer(customers_list=customers_list, sms_body= MainSetup.objects.first().one_year_sms_date,
+                         message_type= "one_year_sms_date")
 
-# def sent_customers_final_warning_7_days_sms_date():
-#     customers_list = Customer.objects.filter(final_warning_7_days_sms_date__date=datetime_now + datetime.timedelta(days), cancel_by_customer= False)
-#     send_sms_to_customer2(customers_list=customers_list, sms_body= MainSetup.objects.first().final_warning_7_days_sms_date,
-#                           message_type= "final_warning_7_days_sms_date")

@@ -51,15 +51,15 @@ def first_sms_date():
 def save_to_csv(customer_list: list[Customer]):
     # field names
     fields = ['first_name', 'last_name', 'email', 'phone_number', 'last_appointment_date',
-              'warning_sms_date', 'first_sms_date', 'second_sms_date', 'third_sms_date', 'one_year_sms_date',
-              'final_warning_7_days_sms_date', 'last_appointment_id']
+              'warning_sms_date', 'second_sms_date', 'third_sms_date', 'one_year_sms_date'
+        , 'last_appointment_id']
     # data rows of csv file
     customer_list_to_csv = []
     for customer in customer_list:
         customer_list_to_csv.append([customer.first_name, customer.last_name, customer.email, customer.phone_number,
-                              customer.last_appointment_date, customer.warning_sms_date, customer.first_sms_date,
+                              customer.last_appointment_date, customer.warning_sms_date,
                               customer.second_sms_date, customer.third_sms_date, customer.one_year_sms_date,
-                              customer.final_warning_7_days_sms_date, customer.last_appointment_id])
+                              customer.last_appointment_id])
     # name of csv file
     filename = "university_records.csv"
     # writing to csv file
@@ -78,11 +78,9 @@ def update_2019():
     print(len(list))
     for customer in list:
         customer.warning_sms_date = customer.last_appointment_date + datetime.timedelta(334 + 365)
-        customer.first_sms_date = customer.last_appointment_date + datetime.timedelta(344 + 365)
         customer.second_sms_date = customer.last_appointment_date + datetime.timedelta(351 + 365 )
         customer.third_sms_date = customer.last_appointment_date + datetime.timedelta(358 + 365 )
         customer.one_year_sms_date = customer.last_appointment_date + datetime.timedelta(365+ 365)
-        customer.final_warning_7_days_sms_date = customer.last_appointment_date + datetime.timedelta(372+ 365)
         customer.save()
 
 
@@ -93,11 +91,9 @@ def update_2020():
     print(len(list))
     for customer in list:
         customer.warning_sms_date = customer.last_appointment_date + datetime.timedelta(334)
-        customer.first_sms_date = customer.last_appointment_date + datetime.timedelta(344)
         customer.second_sms_date = customer.last_appointment_date + datetime.timedelta(351)
         customer.third_sms_date = customer.last_appointment_date + datetime.timedelta(358)
         customer.one_year_sms_date = customer.last_appointment_date + datetime.timedelta(365)
-        customer.final_warning_7_days_sms_date = customer.last_appointment_date + datetime.timedelta(372)
         customer.save()
 #
 
@@ -117,18 +113,14 @@ def add_to_db_all_customers(customers_from_api: list[Customer]):
 
             if customer_from_api.last_appointment_date >= datetime_now - datetime.timedelta(setup.days_for_old_customers):
                 new_customer.warning_sms_date = customer_from_api.last_appointment_date + datetime.timedelta(334)
-                new_customer.first_sms_date = customer_from_api.last_appointment_date + datetime.timedelta(344)
                 new_customer.second_sms_date = customer_from_api.last_appointment_date + datetime.timedelta(351)
                 new_customer.third_sms_date = customer_from_api.last_appointment_date + datetime.timedelta(358)
                 new_customer.one_year_sms_date = customer_from_api.last_appointment_date + datetime.timedelta(365)
-                new_customer.final_warning_7_days_sms_date = customer_from_api.last_appointment_date + datetime.timedelta(372)
             else:
                 new_customer.warning_sms_date = datetime_now + datetime.timedelta(1)
-                new_customer.first_sms_date = datetime_now + datetime.timedelta(7)
                 new_customer.second_sms_date = datetime_now + datetime.timedelta(14)
                 new_customer.third_sms_date = datetime_now + datetime.timedelta(21)
                 new_customer.one_year_sms_date = datetime_now + datetime.timedelta(28)
-                new_customer.final_warning_7_days_sms_date = datetime_now + datetime.timedelta(35)
             new_customer.save()
         else:
             #if exist update appointment date for newest
@@ -139,11 +131,9 @@ def add_to_db_all_customers(customers_from_api: list[Customer]):
 
             if customer_from_api.last_appointment_date > datetime_now - datetime.timedelta(setup.days_for_old_customers):
                 customer_from_db[0].warning_sms_date = customer_from_api.last_appointment_date + datetime.timedelta(setup.warning_sms_date_setup)
-                customer_from_db[0].first_sms_date = customer_from_api.last_appointment_date + datetime.timedelta(setup.first_sms_date_setup)
                 customer_from_db[0].second_sms_date = customer_from_api.last_appointment_date + datetime.timedelta(setup.second_sms_date_setup)
                 customer_from_db[0].third_sms_date = customer_from_api.last_appointment_date + datetime.timedelta(setup.third_sms_date)
                 customer_from_db[0].one_year_sms_date = customer_from_api.last_appointment_date + datetime.timedelta(setup.one_year_sms_date)
-                customer_from_db[0].final_warning_7_days_sms_date = customer_from_api.last_appointment_date + datetime.timedelta(setup.final_warning_7_days_sms)
                 customer_from_db[0].save()
 
 

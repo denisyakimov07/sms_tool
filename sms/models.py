@@ -17,17 +17,15 @@ class Customer(models.Model):
     last_appointment_id = models.CharField(max_length=500, null=False, blank=True)
     last_appointment_date = models.DateTimeField(null=False, blank=True)
     warning_sms_date = models.DateTimeField(null=True, blank=True)
-    first_sms_date = models.DateTimeField(null=True, blank=True)
     second_sms_date = models.DateTimeField(null=True, blank=True)
     third_sms_date = models.DateTimeField(null=True, blank=True)
     one_year_sms_date = models.DateTimeField(null=True, blank=True)
-    final_warning_7_days_sms_date = models.DateTimeField(null=True)
     cancel_by_customer =  models.BooleanField(blank=True, default=False)
 
     def __str__(self):
         return f"{self.first_name} - {self.last_name} - {self.email}- {self.phone_number} - {self.last_appointment_date}" \
-               f"- {self.warning_sms_date} - {self.first_sms_date}- {self.second_sms_date} - {self.third_sms_date}" \
-               f"- {self.one_year_sms_date} - {self.final_warning_7_days_sms_date}"
+               f"- {self.warning_sms_date} - {self.second_sms_date} - {self.third_sms_date}" \
+               f"- {self.one_year_sms_date}"
 
 
 class MainSetup(models.Model):
