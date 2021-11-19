@@ -16,3 +16,5 @@
 11 - #settings MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 pip freeze > requirements.txt
+
+heroku logs --tail
