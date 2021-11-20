@@ -18,7 +18,7 @@ def start():
 
     scheduler = BackgroundScheduler()
     scheduler.add_jobstore(DjangoJobStore(), "default")
-    scheduler.add_job(update_app, trigger='cron', hour="14", minute='04', id="Update_acuityscheduling_appointments" , replace_existing=True)
-    scheduler.add_job(daily_report, trigger='cron', hour="14", minute='05', id="Sent_daily_report" , replace_existing=True)
+    scheduler.add_job(update_app, trigger='cron', hour="14", minute='08', id="Update_acuityscheduling_appointments" , replace_existing=True)
+    scheduler.add_job(daily_report, trigger='cron', hour="14", minute="10", id="Sent_daily_report" , replace_existing=True)
     # scheduler.add_job(sent_sms, trigger='cron', hour="14", minute='25', id="Sent_sms", replace_existing=True)
     scheduler.start()
