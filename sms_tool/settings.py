@@ -28,7 +28,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = get_env().SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = get_env().DEBUG_STATUS
+DEBUG = False
+# DEBUG = get_env().DEBUG_STATUS
 
 ALLOWED_HOSTS = []
 

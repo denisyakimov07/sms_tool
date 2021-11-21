@@ -1,3 +1,5 @@
+from loguru import logger
+
 import smtplib
 
 from environment import get_env
@@ -5,9 +7,9 @@ from sms.models import ReportRecipient
 
 
 def send_email(msg):
-    emails = ReportRecipient.objects.all()
-    for email in emails:
-        try:
+    try:
+        emails = ReportRecipient.objects.all()
+        for email in emails:
             destination = email.email
             from_whom = "Daily report Bot"
             subject = "Daily report"
@@ -20,5 +22,7 @@ def send_email(msg):
 
             server.sendmail(get_env().MAIL_USERNAME, email.email, to_send)
             server.quit()
-        except Exception as e:
-            print(e)
+            logger.info(f"Sent daily report {msg}")
+    except Exception as e:
+        logger.error(f"ERROR: Can't daily report")
+        logger.trace(e)
