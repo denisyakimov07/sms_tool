@@ -1,6 +1,6 @@
 import datetime
 
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import redirect
 from django.views.decorators.csrf import csrf_exempt
 
@@ -111,6 +111,7 @@ def scheduler(request):
     if request.method == 'POST' and request.POST.get('password') == get_env().SCHEDULER_KEY:
         print(f"DEBUG_STATUS - {get_env().DEBUG_STATUS}")
         print("scheduler test")
+        return HttpResponse(None)
 
 
 def sent_customers_warning_sms_date_today():
