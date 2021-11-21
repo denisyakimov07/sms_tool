@@ -1,3 +1,5 @@
+import datetime
+
 from loguru import logger
 
 from django.utils import timezone
@@ -33,10 +35,9 @@ def send_sms_to_customer_log(cus_info: Customer, message_type: str):
 
 def daily_report():
     try:
-        total_sms_list = LogIvents.objects.filter(creat__date=d_now, status="send_sms")
-        unsubscribe_customers = LogIvents.objects.filter(creat__date=d_now, status="unsubscribe")
-
-        message = f"Total sent sms - {len(total_sms_list)} \nTotal unsubscribe customers - {len(unsubscribe_customers)}"
+        total_sms_list = LogIvents.objects.filter(creat__date=d_now, status="sent_sms")
+        unsubscribe_customers = LogIvents.objects.filter(creat__date=d_now - datetime.timedelta(1), status="unsubscribe")
+        message = f"Total sent sms - {len(total_sms_list)} \nTotal unsubscribe yesterday customers - {len(unsubscribe_customers)}"
         send_email(message)
         logger.info("Creat daily report")
     except Exception as e:

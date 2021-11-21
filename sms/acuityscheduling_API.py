@@ -16,6 +16,7 @@ def api_get_appointments(min_date, max_date):
         body = {"minDate": min_date, "maxDate": max_date, "excludeForms": "true", "max": "5000"}
         response = requests.get(API_ENDPOINT, params=body, auth=HTTPBasicAuth(get_env().ACU_USER_ID, get_env().ACU_API_KEY))
         cus_list = []
+        logger.info("Get data from acuityscheduling.com")
         for res in response.json():
             customer_from_api = Customer()
             customer_from_api.first_name = res.get('firstName')
@@ -28,7 +29,6 @@ def api_get_appointments(min_date, max_date):
 
             customer_from_api.last_appointment_id = res.get('confirmationPage')
             cus_list.append(customer_from_api)
-            logger.info("Get data from acuityscheduling.com")
         return cus_list
     except Exception as e:
         logger.error("ERROR: Can't get data from acuityscheduling.com")

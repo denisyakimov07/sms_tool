@@ -18,6 +18,7 @@ from sms.twilio import send_sms_to_customer
 
 datetime_now = timezone.now()
 
+import threading
 
 def get_customer_by_phone(phone):
     return Customer.objects.filter(phone_number=phone)
@@ -107,16 +108,20 @@ def read_sms_from_customer(request):
             return HttpResponse(status=401)
 
 
+def background_task():
+    update_app()
+    sent_customers_warning_sms_date_today()
+    sent_customers_second_sms_date()
+    sent_customers_third_sms_date()
+    sent_customers_one_year_sms_date()
+    daily_report()
+
+
 @csrf_exempt
 def scheduler(request):
     if request.method == 'POST' and request.POST.get('password') == get_env().SCHEDULER_KEY:
         try:
-            update_app()
-            sent_customers_warning_sms_date_today()
-            sent_customers_second_sms_date()
-            sent_customers_third_sms_date()
-            sent_customers_one_year_sms_date()
-            daily_report()
+            threading.Thread(target=background_task).start()
             logger.success("Success scheduler task")
             return HttpResponse(status=200)
         except Exception as e:
