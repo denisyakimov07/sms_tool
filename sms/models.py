@@ -43,9 +43,9 @@ class CustomerAPIDATA(BaseModel):
 
 class LogIvents(models.Model):
     creat = models.DateTimeField(null=True, blank=True, default=django.utils.timezone.now)
-    status = models.CharField(max_length=200, null=True, blank=True)
-    customer_info = models.CharField(max_length=200, null=True, blank=True)
-    message_type = models.CharField(max_length=200, null=True, blank=True)
+    status = models.TextField(null=True, blank=True)
+    customer_info = models.TextField(null=True, blank=True)
+    message_type = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.creat} - {self.status} - {self.customer_info}"
