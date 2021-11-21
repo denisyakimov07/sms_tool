@@ -107,7 +107,9 @@ def read_sms_from_customer(request):
 
 @csrf_exempt
 def scheduler(request):
+    print(request.POST)
     if request.method == 'POST' and request.POST.get('password') == get_env().SCHEDULER_KEY:
+        print(f"DEBUG_STATUS - {get_env().DEBUG_STATUS}")
         print("scheduler test")
 
 
