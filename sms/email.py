@@ -1,16 +1,11 @@
 import smtplib
-from email.message import EmailMessage
 
 from environment import get_env
 from sms.models import ReportRecipient
 
 
 def send_email(msg):
-
-
-
     emails = ReportRecipient.objects.all()
-
     for email in emails:
         try:
             destination = email.email
@@ -27,6 +22,3 @@ def send_email(msg):
             server.quit()
         except Exception as e:
             print(e)
-
-
-

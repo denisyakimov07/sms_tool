@@ -3,7 +3,6 @@ from django.db import models
 from django.utils import timezone
 
 from pydantic import BaseModel, Field
-from typing import Optional
 from datetime import datetime
 
 datetime_now = timezone.now()

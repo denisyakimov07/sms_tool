@@ -39,6 +39,7 @@ class _Environment:
         self.MAIL_USERNAME = os.getenv('MAIL_USERNAME')
         self.MAIL_PASSWORD = os.getenv('MAIL_PASSWORD')
 
+        self.SCHEDULER_KEY = os.getenv('SCHEDULER_KEY')
 
 
 __environment = _Environment()
