@@ -7,7 +7,7 @@ from django.utils import timezone
 from sms.email import send_email
 from sms.models import Customer, LogIvents
 
-d_now = timezone.now()  # datetime now + time zone
+
 
 
 def unsubscribe_customer_log(cus_info: Customer):
@@ -35,8 +35,8 @@ def send_sms_to_customer_log(cus_info: Customer, message_type: str):
 
 def daily_report():
     try:
-        total_sms_list = LogIvents.objects.filter(creat__date=d_now, status="sent_sms")
-        unsubscribe_customers = LogIvents.objects.filter(creat__date=d_now - datetime.timedelta(1), status="unsubscribe")
+        total_sms_list = LogIvents.objects.filter(creat__date=timezone.now(), status="sent_sms")
+        unsubscribe_customers = LogIvents.objects.filter(creat__date=timezone.now() - datetime.timedelta(1), status="unsubscribe")
         message = f"Total sent sms - {len(total_sms_list)} \nTotal unsubscribe yesterday customers - {len(unsubscribe_customers)}"
         send_email(message)
         logger.info("Creat daily report")

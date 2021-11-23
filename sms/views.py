@@ -16,8 +16,6 @@ from django.utils import timezone
 from sms.my_logger import unsubscribe_customer_log, daily_report
 from sms.twilio import send_sms_to_customer
 
-datetime_now = timezone.now()
-
 import threading
 
 def get_customer_by_phone(phone):
@@ -133,7 +131,7 @@ def scheduler(request):
 
 def sent_customers_warning_sms_date_today():
     try:
-        customers_list = Customer.objects.filter(warning_sms_date__date=datetime_now, cancel_by_customer=False)
+        customers_list = Customer.objects.filter(warning_sms_date__date=timezone.now(), cancel_by_customer=False)
         logger.info(f"Creat customers_warning_sms_date list - Length ({len(customers_list)}).")
     except Exception as e:
         logger.error(f"ERROR: Can't create warning_sms_date customers_list")
@@ -148,7 +146,7 @@ def sent_customers_warning_sms_date_today():
 
 def sent_customers_second_sms_date():
     try:
-        customers_list = Customer.objects.filter(second_sms_date__date=datetime_now, cancel_by_customer=False)
+        customers_list = Customer.objects.filter(second_sms_date__date=timezone.now(), cancel_by_customer=False)
         logger.info(f"Creat customers second_sms list - Length ({len(customers_list)}).")
     except Exception as e:
         logger.error(f"ERROR: Can't create second_sms customers_list")
@@ -163,7 +161,7 @@ def sent_customers_second_sms_date():
 
 def sent_customers_third_sms_date():
     try:
-        customers_list = Customer.objects.filter(third_sms_date__date=datetime_now, cancel_by_customer=False)
+        customers_list = Customer.objects.filter(third_sms_date__date=timezone.now(), cancel_by_customer=False)
         logger.info(f"Creat customers third_sms list - Length ({len(customers_list)}).")
     except Exception as e:
         logger.error(f"ERROR: Can't create third_sms customers_list")
@@ -178,7 +176,7 @@ def sent_customers_third_sms_date():
 
 def sent_customers_one_year_sms_date():
     try:
-        customers_list = Customer.objects.filter(one_year_sms_date__date=datetime_now, cancel_by_customer=False)
+        customers_list = Customer.objects.filter(one_year_sms_date__date=timezone.now(), cancel_by_customer=False)
         logger.info(f"Creat customers one_year_sms list - Length ({len(customers_list)}).")
     except Exception as e:
         logger.error(f"ERROR: Can't create one_year_sms customers_list")
