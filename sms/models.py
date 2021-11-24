@@ -5,7 +5,6 @@ from django.utils import timezone
 from pydantic import BaseModel, Field
 from datetime import datetime
 
-datetime_now = timezone.now()
 
 # Create your models here.
 class Customer(models.Model):

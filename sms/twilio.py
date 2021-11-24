@@ -30,7 +30,7 @@ def sms_sender(phone_number, sms_body):
         client = Client(account_sid, auth_token)
         message = client.messages.create(
             to=f"{phone_number}",
-            from_="+17193012173",
+            from_="+18449780057",
             body=f"{sms_body}")
         logger.info(f"Message sid - {message.sid}")
     except Exception as e:
