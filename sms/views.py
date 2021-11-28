@@ -9,7 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 from environment import get_env
 from sms import acuityscheduling_API, setup
 
-from sms.models import Customer, MainSetup
+from sms.models import Customer, MainSetup, LogIvents
 
 from django.utils import timezone
 
@@ -97,6 +97,14 @@ def read_sms_from_customer(request):
                     customer.cancel_by_customer = False
                     customer.save()
                     logger.success(f"Customer subscribe - {customer}")
+                else:
+                    new_log = LogIvents()
+                    new_log.customer_info = f"{customer.first_name} {customer.last_name} - {customer.phone_number} - {customer.email}"
+                    new_log.status = "Incoming sms"
+                    new_log.message_type = sms_message
+                    new_log.save()
+                    logger.success(f"Incoming sms - {customer}")
+
             else:
                 logger.warning(f"Can't find customer - {phone_number}")
             return HttpResponse(status=200)
