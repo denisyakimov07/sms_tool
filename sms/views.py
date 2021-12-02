@@ -18,6 +18,7 @@ from sms.twilio import send_sms_to_customer
 
 import threading
 
+
 def get_customer_by_phone(phone):
     return Customer.objects.filter(phone_number=phone)
 
@@ -195,5 +196,3 @@ def sent_customers_one_year_sms_date():
     except Exception as e:
         logger.error(f"ERROR: Send sms to customer (one_year_sms)")
         logger.trace(e)
-
-
