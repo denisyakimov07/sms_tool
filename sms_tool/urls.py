@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path
 
 from sms import views
-from sms.views import feedback_sms_sender
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
