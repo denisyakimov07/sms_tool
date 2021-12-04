@@ -63,7 +63,10 @@ class Feedback(models.Model):
     def __str__(self):
         return f"{self.customer.phone_number} - {self.customer.last_appointment_date}"
 
-class FeedbackURL(models.Model):
-    url = models.TextField(null=True, blank=True)
+
+
+class FeedbackSMSTemplate(models.Model):
+    first_Feedback_sms = models.TextField(null=True, blank=True)
+    second_Feedback_sms = models.TextField(null=True, blank=True)
     def __str__(self):
-        return f"{self.url}"
+        return f"{self.first_Feedback_sms} - {self.second_Feedback_sms}"
