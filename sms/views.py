@@ -8,8 +8,9 @@ from django.views.decorators.csrf import csrf_exempt
 
 from environment import get_env
 from sms import acuityscheduling_API, setup
+from sms.bitly import bitly_shorter
 
-from sms.models import Customer, MainSetup, LogIvents
+from sms.models import Customer, MainSetup, LogIvents, Feedback
 
 from django.utils import timezone
 
@@ -196,3 +197,20 @@ def sent_customers_one_year_sms_date():
     except Exception as e:
         logger.error(f"ERROR: Send sms to customer (one_year_sms)")
         logger.trace(e)
+
+def feedback_sms_sender():
+    try:
+        customers_list = Customer.objects.filter(last_appointment_date__date=(timezone.now()-datetime.timedelta(1)),
+                                                 cancel_by_customer=False)
+        logger.info(f"Creat customers yeasty appointment_date list - Length ({len(customers_list)}).")
+    except Exception as e:
+        logger.error(f"ERROR: Can't customers yeasty appointment_date list")
+        logger.trace(e)
+
+    for customer in customers_list:
+        new_feedback = Feedback()
+        new_feedback.customer = customer
+        new_feedback.feedback_url_1 = bitly_shorter("https://smstool.herokuapp.com/")
+        new_feedback.feedback_url_2 = bitly_shorter("https://smstool.herokuapp.com/")
+        new_feedback.feedback_url_3 = bitly_shorter("https://smstool.herokuapp.com/")
+        new_feedback.save()
