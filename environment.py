@@ -41,6 +41,8 @@ class _Environment:
 
         self.SCHEDULER_KEY = os.getenv('SCHEDULER_KEY')
 
+        self.BITLY = os.getenv('BITLY')
+
 
 __environment = _Environment()
 
