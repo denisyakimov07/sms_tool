@@ -62,3 +62,8 @@ class Feedback(models.Model):
 
     def __str__(self):
         return f"{self.customer.phone_number} - {self.customer.last_appointment_date}"
+
+class FeedbackURL(models.Model):
+    url = models.TextField(null=True, blank=True)
+    def __str__(self):
+        return f"{self.url}"
