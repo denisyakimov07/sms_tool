@@ -8,14 +8,14 @@ from django.views.decorators.csrf import csrf_exempt
 
 from environment import get_env
 from sms import acuityscheduling_API, setup
-from sms.bitly import bitly_shorter
 
-from sms.models import Customer, MainSetup, LogIvents, Feedback
+
+from sms.models import Customer, MainSetup, LogIvents, FeedbackSMSTemplate
 
 from django.utils import timezone
 
 from sms.my_logger import unsubscribe_customer_log, daily_report
-from sms.twilio import send_sms_to_customer
+from sms.twilio import send_sms_to_customer, sms_sender
 
 import threading
 
@@ -199,18 +199,26 @@ def sent_customers_one_year_sms_date():
         logger.trace(e)
 
 def feedback_sms_sender():
-    try:
-        customers_list = Customer.objects.filter(last_appointment_date__date=(timezone.now()-datetime.timedelta(1)),
-                                                 cancel_by_customer=False)
-        logger.info(f"Creat customers yeasty appointment_date list - Length ({len(customers_list)}).")
-    except Exception as e:
-        logger.error(f"ERROR: Can't customers yeasty appointment_date list")
-        logger.trace(e)
+    feedback = FeedbackSMSTemplate.objects.filter(sent_sms=True)
+    if feedback:
+        try:
+            customers_list_one_day = Customer.objects.filter(last_appointment_date__date=timezone.now() - datetime.timedelta(1),
+                                                     cancel_by_customer=False)
+            customers_list_seven_days = Customer.objects.filter(last_appointment_date__date=timezone.now() - datetime.timedelta(7),
+                                                            cancel_by_customer=False)
 
-    for customer in customers_list:
-        new_feedback = Feedback()
-        new_feedback.customer = customer
-        new_feedback.feedback_url_1 = bitly_shorter("https://smstool.herokuapp.com/")
-        new_feedback.feedback_url_2 = bitly_shorter("https://smstool.herokuapp.com/")
-        new_feedback.feedback_url_3 = bitly_shorter("https://smstool.herokuapp.com/")
-        new_feedback.save()
+            logger.info(f"Creat last_appointment_date list - Length ({len(customers_list_one_day)}).")
+            logger.info(f"Creat customers_list_seven_days list - Length ({len(customers_list_seven_days)}).")
+
+        except Exception as e:
+            logger.error(f"ERROR: Can't create last_appointment_date list")
+            logger.trace(e)
+
+        for customer in customers_list_one_day:
+            sms_body = feedback[0].first_Feedback_sms.replace('{firstName}', customer.first_name)
+            sms_sender(phone_number=customer.phone_number, sms_body=sms_body)
+
+        for customer in customers_list_seven_days:
+            sms_body = feedback[0].second_Feedback_sms.replace('{firstName}', customer.first_name)
+            sms_sender(phone_number=customer.phone_number, sms_body=sms_body)
+

@@ -53,20 +53,10 @@ class ReportRecipient(models.Model):
         return f"{self.email}"
 
 
-class Feedback(models.Model):
-    customer = models.OneToOneField(Customer, on_delete=models.CASCADE, primary_key=True)
-    feedback_url_1 = models.TextField(null=True, blank=True)
-    feedback_url_2 = models.TextField(null=True, blank=True)
-    feedback_url_3 = models.TextField(null=True, blank=True)
-    feedback_url_click_number = models.IntegerField(null=True, default=0)
-
-    def __str__(self):
-        return f"{self.customer.phone_number} - {self.customer.last_appointment_date}"
-
-
-
 class FeedbackSMSTemplate(models.Model):
     first_Feedback_sms = models.TextField(null=True, blank=True)
     second_Feedback_sms = models.TextField(null=True, blank=True)
+    sent_sms = models.BooleanField(blank=True, default=False)
+
     def __str__(self):
-        return f"{self.first_Feedback_sms} - {self.second_Feedback_sms}"
+        return f"{self.first_Feedback_sms} - {self.second_Feedback_sms} - {self.sent_sms}"
