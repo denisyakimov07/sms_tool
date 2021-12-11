@@ -224,3 +224,9 @@ def feedback_sms_sender():
             sms_body = feedback[0].second_Feedback_sms.replace('{firstName}', customer.first_name)
             sms_sender(phone_number=customer.phone_number, sms_body=sms_body)
             logger.info(f"Sent seven days Feedback sms  {customer.phone_number} - {sms_body}.")
+
+@csrf_exempt
+def zendesk_webhook(request):
+    if request.method == 'POST':
+        print(request.POST)
+        return HttpResponse(status=200)
