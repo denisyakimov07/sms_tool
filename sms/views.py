@@ -122,6 +122,7 @@ def background_task():
     sent_customers_second_sms_date()
     sent_customers_third_sms_date()
     sent_customers_one_year_sms_date()
+    feedback_sms_sender()
     daily_report()
 
 
