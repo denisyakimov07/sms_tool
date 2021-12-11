@@ -217,8 +217,9 @@ def feedback_sms_sender():
         for customer in customers_list_one_day:
             sms_body = feedback[0].first_Feedback_sms.replace('{firstName}', customer.first_name)
             sms_sender(phone_number=customer.phone_number, sms_body=sms_body)
+            logger.info(f"Sent one day Feedback sms  {customer.phone_number} - {sms_body}.")
 
         for customer in customers_list_seven_days:
             sms_body = feedback[0].second_Feedback_sms.replace('{firstName}', customer.first_name)
             sms_sender(phone_number=customer.phone_number, sms_body=sms_body)
-
+            logger.info(f"Sent seven days Feedback sms  {customer.phone_number} - {sms_body}.")
