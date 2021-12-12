@@ -107,7 +107,7 @@ def read_sms_from_customer(request):
                 new_log.status = "Incoming sms"
                 new_log.message_type = sms_message
                 new_log.save()
-                sms_processor(new_customer=customer[0], sms_text=sms_message)
+                sms_processor(new_customer=customer, sms_text=sms_message)
                 logger.success(f"Incoming sms - {customer}")
 
 
