@@ -240,13 +240,5 @@ def zendesk_webhook(request):
         body = json.loads(body_unicode)
         ticket_requester_phone = body['ticket_requester_phone']
         ticket_latest_comment = body['ticket_latest_comment']
-        print(ticket_requester_phone)
-        print(ticket_latest_comment)
-
-
-        # sms_sender(phone_number=request.body["ticket_requester_phone"], sms_body=request.body["ticket_latest_comment"])
+        sms_sender(phone_number=ticket_requester_phone, sms_body=ticket_latest_comment)
         return HttpResponse(status=200)
-
-
-
-
