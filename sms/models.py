@@ -60,3 +60,12 @@ class FeedbackSMSTemplate(models.Model):
 
     def __str__(self):
         return f"{self.first_Feedback_sms} - {self.second_Feedback_sms} - {self.sent_sms}"
+
+
+class ZenTicket(models.Model):
+    ticket_id = models.IntegerField(null=True, blank=True)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    ticket_status = models.BooleanField(blank=True, default=False)
+
+    def __str__(self):
+        return f"{self.ticket_id} - {self.customer.phone_number} - {self.ticket_status}"

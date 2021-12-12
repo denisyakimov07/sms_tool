@@ -19,6 +19,8 @@ from sms.twilio import send_sms_to_customer, sms_sender
 
 import threading
 
+from sms.zendesk_api import sms_processor
+
 
 def get_customer_by_phone(phone):
     return Customer.objects.filter(phone_number=phone)
@@ -95,11 +97,12 @@ def read_sms_from_customer(request):
                     customer.save()
                     unsubscribe_customer_log(customer)
                     logger.success(f"Customer unsubscribe - {customer}")
-                if customer and 'start' in str(sms_message).lower():
+                elif customer and 'start' in str(sms_message).lower():
                     customer.cancel_by_customer = False
                     customer.save()
                     logger.success(f"Customer subscribe - {customer}")
                 else:
+                    sms_processor(customer)
                     new_log = LogIvents()
                     new_log.customer_info = f"{customer.first_name} {customer.last_name} - {customer.phone_number} - {customer.email}"
                     new_log.status = "Incoming sms"
@@ -232,3 +235,7 @@ def zendesk_webhook(request):
         print(request.body)
         print(request.headers)
         return HttpResponse(status=200)
+
+
+
+

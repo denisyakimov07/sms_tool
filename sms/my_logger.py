@@ -4,7 +4,7 @@ from loguru import logger
 
 from django.utils import timezone
 
-from sms.email import send_email
+from sms.email_api import send_email
 from sms.models import Customer, LogIvents
 
 
