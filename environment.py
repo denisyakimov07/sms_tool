@@ -43,6 +43,7 @@ class _Environment:
 
         self.BITLY = os.getenv('BITLY')
 
+        self.ZEN_TOKEN = os.getenv('ZEN_TOKEN')
 
 __environment = _Environment()
 

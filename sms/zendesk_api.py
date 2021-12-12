@@ -4,12 +4,13 @@ import zenpy
 from zenpy import Zenpy
 from zenpy.lib.api_objects import Ticket, User, TicketAudit, Comment
 
+from environment import get_env
 from sms.models import Customer, ZenTicket
 
-use_api_token = "kHQsdGfXWHfKVZb0SXk6xRS308bmmA0OX1Kglgqj"
+
 CREDS = {
     'email': 'adam@drnatmed.com',
-    'token': use_api_token,
+    'token': get_env().ZEN_TOKEN,
     'subdomain': 'drnatmedco'}
 
 ZENPY_CLIENT = Zenpy(**CREDS)
@@ -45,39 +46,36 @@ def zen_add_new_message(ticket: zenpy.lib.api_objects.Ticket, message: str, cust
 
 
 def sms_processor(new_customer: Customer(), sms_text: str):
-    zen_ticket = ZenTicket.objects.filter(ticket_status=True, customer=new_customer)
-    if zen_ticket:
-        zen_ticket = zen_ticket[0]
-        zen_ticket_api = zen_get_ticket_by_id(zen_ticket.ticket_id)
-        if zen_ticket_api:
-            zen_add_new_message(ticket=zen_ticket_api,
-                                message=sms_text,
-                                customer=new_customer,
-                                author_id= zen_ticket.zen_user_id)
-        else:
-            zen_ticket.ticket_status = False
-            zen_ticket.save()
-            new_zen_ticket_id = zen_create_new_ticket(new_customer, sms_text)
-            new_zen_ticket = ZenTicket()
-            new_zen_ticket.ticket_id = new_zen_ticket_id.get("ticket_id")
-            new_zen_ticket.customer = new_customer
-            new_zen_ticket.ticket_status = True
-            new_zen_ticket.zen_user_id = new_zen_ticket_id.get("requester_id")
-            new_zen_ticket.save()
-            logger.success(f"Create new ticket zen_id={zen_ticket.ticket_id}, phone={zen_ticket.customer.phone_number}")
-    else:
-        zen_ticket_id = zen_create_new_ticket(new_customer, sms_text)
-        zen_ticket = ZenTicket()
-        zen_ticket.ticket_id = zen_ticket_id.get("ticket_id")
-        zen_ticket.customer = new_customer
-        zen_ticket.ticket_status = True
-        zen_ticket.zen_user_id = zen_ticket_id.get("requester_id")
-        zen_ticket.save()
-        logger.success(f"Create new ticket zen_id={zen_ticket.ticket_id}, phone={zen_ticket.customer.phone_number}")
-
-
     try:
-        pass
+        zen_ticket = ZenTicket.objects.filter(ticket_status=True, customer=new_customer)
+        if zen_ticket:
+            zen_ticket = zen_ticket[0]
+            zen_ticket_api = zen_get_ticket_by_id(zen_ticket.ticket_id)
+            if zen_ticket_api:
+                zen_add_new_message(ticket=zen_ticket_api,
+                                    message=sms_text,
+                                    customer=new_customer,
+                                    author_id= zen_ticket.zen_user_id)
+            else:
+                zen_ticket.ticket_status = False
+                zen_ticket.save()
+                new_zen_ticket_id = zen_create_new_ticket(new_customer, sms_text)
+                new_zen_ticket = ZenTicket()
+                new_zen_ticket.ticket_id = new_zen_ticket_id.get("ticket_id")
+                new_zen_ticket.customer = new_customer
+                new_zen_ticket.ticket_status = True
+                new_zen_ticket.zen_user_id = new_zen_ticket_id.get("requester_id")
+                new_zen_ticket.save()
+                logger.success(f"Create new ticket zen_id={zen_ticket.ticket_id}, phone={zen_ticket.customer.phone_number}")
+        else:
+            zen_ticket_id = zen_create_new_ticket(new_customer, sms_text)
+            zen_ticket = ZenTicket()
+            zen_ticket.ticket_id = zen_ticket_id.get("ticket_id")
+            zen_ticket.customer = new_customer
+            zen_ticket.ticket_status = True
+            zen_ticket.zen_user_id = zen_ticket_id.get("requester_id")
+            zen_ticket.save()
+            logger.success(f"Create new ticket zen_id={zen_ticket.ticket_id}, phone={zen_ticket.customer.phone_number}")
     except Exception as e:
         logger.error(f"ERROR: Can't creat ticket")
         logger.trace(e)

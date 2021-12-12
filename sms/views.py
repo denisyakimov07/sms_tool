@@ -12,7 +12,7 @@ from environment import get_env
 from sms import acuityscheduling_API, setup
 
 
-from sms.models import Customer, MainSetup, LogIvents, FeedbackSMSTemplate
+from sms.models import Customer, MainSetup, LogIvents, FeedbackSMSTemplate, ZenTicket
 
 from django.utils import timezone
 
@@ -86,45 +86,37 @@ def redirect_view(request):
 # subscription/unsubscribe process
 @csrf_exempt
 def read_sms_from_customer(request):
-    if request.method == 'POST':
-        phone_number = request.POST.get('From')
-        sms_message = request.POST.get('Body')
-        customer = Customer.objects.filter(phone_number__contains=phone_number[2:])
-        if customer:
-            customer = customer[0]
-            logger.info(f"Customer message - {customer} - {sms_message}")
-            if customer and 'stop' in str(sms_message).lower():
-                customer.cancel_by_customer = True
-                customer.save()
-                unsubscribe_customer_log(customer[0])
-                logger.success(f"Customer unsubscribe - {customer}")
-                return HttpResponse(status=200)
-            elif customer and 'start' in str(sms_message).lower():
-                customer.cancel_by_customer = False
-                customer.save()
-                logger.success(f"Customer subscribe - {customer}")
-                return HttpResponse(status=200)
-
-            else:
+    try:
+        if request.method == 'POST':
+            phone_number = request.POST.get('From')
+            sms_message = request.POST.get('Body')
+            customer = Customer.objects.filter(phone_number__contains=phone_number[2:])
+            if customer:
+                customer = customer[0]
+                logger.info(f"Customer message - {customer} - {sms_message}")
                 new_log = LogIvents()
                 new_log.customer_info = f"{customer.first_name} {customer.last_name} - {customer.phone_number} - {customer.email}"
                 new_log.status = "Incoming sms"
                 new_log.message_type = sms_message
                 new_log.save()
                 sms_processor(new_customer=customer, sms_text=sms_message)
-                logger.success(f"Incoming sms - {customer}")
-                return HttpResponse(status=200)
+                logger.success(f"Incoming sms and create new ticket- {customer}")
+                if customer and 'stop' in str(sms_message).lower():
+                    customer.cancel_by_customer = True
+                    customer.save()
+                    unsubscribe_customer_log(customer[0])
+                    logger.success(f"Customer unsubscribe - {customer}")
+                    return HttpResponse(status=200)
+                if customer and 'start' in str(sms_message).lower():
+                    customer.cancel_by_customer = False
+                    customer.save()
+                    logger.success(f"Customer subscribe - {customer}")
+                    return HttpResponse(status=200)
+    except Exception as e:
+        logger.error(f"ERROR: Can't read post message")
+        logger.trace(e)
+        return HttpResponse(status=401)
 
-
-        # else:
-        #     logger.warning(f"Can't find customer - {phone_number}")
-        # return HttpResponse(status=200)
-        # try:
-        #     pass
-        # except Exception as e:
-        #     logger.error(f"ERROR: Can't read post message")
-        #     logger.trace(e)
-        #     return HttpResponse(status=401)
 
 
 def background_task():
@@ -239,10 +231,17 @@ def feedback_sms_sender():
 @csrf_exempt
 def zendesk_webhook(request):
       if request.method == 'POST':
-        body_unicode = request.body.decode('utf-8')
-        body = json.loads(body_unicode)
-        ticket_requester_phone = body['ticket_requester_phone']
-        ticket_latest_comment = body['ticket_latest_comment']
-        sms_sender(phone_number=ticket_requester_phone, sms_body=ticket_latest_comment)
-        logger.info(f"Get call from Zen  {ticket_requester_phone} - {ticket_latest_comment}.")
-        return HttpResponse(status=200)
+        try:
+            body_unicode = request.body.decode('utf-8')
+            body = json.loads(body_unicode)
+            ticket_requester_phone = body.get('ticket_requester_phone')
+            ticket_latest_comment = body.get('ticket_latest_comment')
+            ticket_id = body.get('ticket_id')
+            if ticket_requester_phone and ticket_latest_comment and ticket_id and ZenTicket.objects.filter(ticket_id=int(ticket_id)):
+                sms_sender(phone_number=ticket_requester_phone, sms_body=ticket_latest_comment)
+                logger.info(f"Get call from Zen  {ticket_requester_phone} - {ticket_latest_comment}.")
+            logger.info(f"Ticket or field is wrong  {ticket_requester_phone} - {ticket_latest_comment}- {ticket_id}.")
+            return HttpResponse(status=200)
+        except Exception as e:
+            logger.error(f"ERROR: Can't read data from Zen POST")
+            logger.trace(e)
