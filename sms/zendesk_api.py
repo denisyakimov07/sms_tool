@@ -37,18 +37,11 @@ def zen_get_ticket_by_id(id: int):
         return ticket
 
 
-def zen_add_new_message(ticket: zenpy.lib.api_objects.Ticket, message: str, customer, author_id, db_zen_ticket):
-    if ticket:
-        ticket.comment = Comment(body=message, public=True, author_id=author_id)
-        ticket.status = "open"
-        ticket.recipient=User(name=f"{customer.first_name} {customer.last_name} {customer.phone_number}")
-        ZENPY_CLIENT.tickets.update(ticket)
-    else:
-        zen_create_new_ticket(customer=customer, sms_message=message)
-        db_zen_ticket.ticket_status=False
-        db_zen_ticket.save()
-
-
+def zen_add_new_message(ticket: zenpy.lib.api_objects.Ticket, message: str, customer, author_id):
+    ticket.comment = Comment(body=message, public=True, author_id=author_id)
+    ticket.status = "open"
+    ticket.recipient = User(name=f"{customer.first_name} {customer.last_name} {customer.phone_number}")
+    ZENPY_CLIENT.tickets.update(ticket)
 
 
 def sms_processor(new_customer: Customer(), sms_text: str):
@@ -56,12 +49,22 @@ def sms_processor(new_customer: Customer(), sms_text: str):
     if zen_ticket:
         zen_ticket = zen_ticket[0]
         zen_ticket_api = zen_get_ticket_by_id(zen_ticket.ticket_id)
-        zen_add_new_message(ticket=zen_ticket_api,
-                            message=sms_text,
-                            customer=new_customer,
-                            author_id= zen_ticket.zen_user_id,
-                            db_zen_ticket=zen_ticket)
-
+        if zen_ticket_api:
+            zen_add_new_message(ticket=zen_ticket_api,
+                                message=sms_text,
+                                customer=new_customer,
+                                author_id= zen_ticket.zen_user_id)
+        else:
+            zen_ticket.ticket_status = False
+            zen_ticket.save()
+            new_zen_ticket_id = zen_create_new_ticket(new_customer, sms_text)
+            new_zen_ticket = ZenTicket()
+            new_zen_ticket.ticket_id = new_zen_ticket_id.get("ticket_id")
+            new_zen_ticket.customer = new_customer
+            new_zen_ticket.ticket_status = True
+            new_zen_ticket.zen_user_id = new_zen_ticket_id.get("requester_id")
+            new_zen_ticket.save()
+            logger.success(f"Create new ticket zen_id={zen_ticket.ticket_id}, phone={zen_ticket.customer.phone_number}")
     else:
         zen_ticket_id = zen_create_new_ticket(new_customer, sms_text)
         zen_ticket = ZenTicket()

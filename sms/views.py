@@ -98,6 +98,7 @@ def read_sms_from_customer(request):
                 customer.save()
                 unsubscribe_customer_log(customer[0])
                 logger.success(f"Customer unsubscribe - {customer}")
+                return HttpResponse(status=200)
             elif customer and 'start' in str(sms_message).lower():
                 customer.cancel_by_customer = False
                 customer.save()
