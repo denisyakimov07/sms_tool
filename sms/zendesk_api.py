@@ -1,3 +1,5 @@
+from venv import logger
+
 import zenpy
 from zenpy import Zenpy
 from zenpy.lib.api_objects import Ticket, User, TicketAudit, Comment
@@ -39,12 +41,18 @@ def zen_add_new_message(ticket: zenpy.lib.api_objects.Ticket, message: str):
     ZENPY_CLIENT.tickets.update(ticket)
 
 def sms_processor(new_customer: Customer(), sms_text: str):
+    try:
+        zen_ticket = ZenTicket.objects.filter(ticket_status=True, customer=new_customer)
+        if zen_ticket:
+            pass
+        else:
+            zen_ticket_id = zen_create_new_ticket(new_customer, sms_text)
+            zen_ticket = ZenTicket()
+            zen_ticket.ticket_id = zen_ticket_id
+            zen_ticket.customer = new_customer
+            zen_ticket.ticket_status = True
+    except Exception as e:
+        logger.error(f"ERROR: Can't creat ticket")
+        logger.trace(e)
     zen_ticket = ZenTicket.objects.filter(ticket_status=True, customer=new_customer)
-    if zen_ticket:
-        pass
-    else:
-        zen_ticket_id = zen_create_new_ticket(new_customer, sms_text)
-        zen_ticket = ZenTicket()
-        zen_ticket.ticket_id = zen_ticket_id
-        zen_ticket.customer = new_customer
-        zen_ticket.ticket_status = True
+    print(zen_ticket)
