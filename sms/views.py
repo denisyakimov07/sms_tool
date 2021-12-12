@@ -104,8 +104,8 @@ def read_sms_from_customer(request):
                 customer.save()
                 logger.success(f"Customer subscribe - {customer}")
                 return HttpResponse(status=200)
-            else:
 
+            else:
                 new_log = LogIvents()
                 new_log.customer_info = f"{customer.first_name} {customer.last_name} - {customer.phone_number} - {customer.email}"
                 new_log.status = "Incoming sms"
