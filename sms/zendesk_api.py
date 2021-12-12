@@ -20,7 +20,7 @@ def zen_create_new_ticket(customer, sms_message: str):
                               description=sms_message,
                               requester=User(name=f"{customer.first_name} {customer.last_name} {customer.phone_number}",
                               phone=customer.phone_number)))
-    print(new_t.ticket.requester_id)
+    print(new_t.author_id)
     return (new_t.ticket.id, new_t.author_id)
 
 
