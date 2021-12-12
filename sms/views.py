@@ -1,3 +1,5 @@
+import json
+
 from loguru import logger
 
 import datetime
@@ -234,11 +236,12 @@ def feedback_sms_sender():
 @csrf_exempt
 def zendesk_webhook(request):
       if request.method == 'POST':
-        print(f"request.body - {request.body}")
-        print(f"request.body - {request.body.json()}")
-
-        print(f"request.body - {request.body.json()['ticket_requester_phone']}")
-        print(f"request.body - {request.body.json()['ticket_latest_comment']}")
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+        ticket_requester_phone = body['ticket_requester_phone']
+        ticket_latest_comment = body['ticket_latest_comment']
+        print(ticket_requester_phone)
+        print(ticket_latest_comment)
 
 
         # sms_sender(phone_number=request.body["ticket_requester_phone"], sms_body=request.body["ticket_latest_comment"])
