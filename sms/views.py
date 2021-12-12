@@ -102,13 +102,14 @@ def read_sms_from_customer(request):
                     customer.save()
                     logger.success(f"Customer subscribe - {customer}")
                 else:
-                    sms_processor(customer)
+
                     new_log = LogIvents()
                     new_log.customer_info = f"{customer.first_name} {customer.last_name} - {customer.phone_number} - {customer.email}"
                     new_log.status = "Incoming sms"
                     new_log.message_type = sms_message
                     new_log.save()
                     logger.success(f"Incoming sms - {customer}")
+                    sms_processor(new_customer=customer[0])
 
             else:
                 logger.warning(f"Can't find customer - {phone_number}")

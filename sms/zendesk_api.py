@@ -1,4 +1,4 @@
-from venv import logger
+from loguru import logger
 
 import zenpy
 from zenpy import Zenpy
@@ -38,21 +38,34 @@ def zen_get_ticket_by_id(id: int):
 
 def zen_add_new_message(ticket: zenpy.lib.api_objects.Ticket, message: str):
     ticket.comment = Comment(body=message, public=True)
+    ticket.status = "open"
     ZENPY_CLIENT.tickets.update(ticket)
 
+
+
+
+
 def sms_processor(new_customer: Customer(), sms_text: str):
+    zen_ticket = ZenTicket.objects.filter(ticket_status=True, customer=new_customer)
+    if zen_ticket:
+        zen_ticket = zen_ticket[0]
+        zen_ticket_api = zen_get_ticket_by_id(zen_ticket.ticket_id)
+        zen_add_new_message(ticket=zen_ticket_api, message=sms_text)
+
+    else:
+        zen_ticket_id = zen_create_new_ticket(new_customer, sms_text)
+        zen_ticket = ZenTicket()
+        zen_ticket.ticket_id = zen_ticket_id
+        zen_ticket.customer = new_customer
+        zen_ticket.ticket_status = True
+        zen_ticket.save()
+        logger.success(f"Create new ticket zen_id={zen_ticket.ticket_id}, phone={zen_ticket.customer.phone_number}")
+
+
+
     try:
-        zen_ticket = ZenTicket.objects.filter(ticket_status=True, customer=new_customer)
-        if zen_ticket:
-            pass
-        else:
-            zen_ticket_id = zen_create_new_ticket(new_customer, sms_text)
-            zen_ticket = ZenTicket()
-            zen_ticket.ticket_id = zen_ticket_id
-            zen_ticket.customer = new_customer
-            zen_ticket.ticket_status = True
+        pass
     except Exception as e:
         logger.error(f"ERROR: Can't creat ticket")
         logger.trace(e)
-    zen_ticket = ZenTicket.objects.filter(ticket_status=True, customer=new_customer)
-    print(zen_ticket)
+
