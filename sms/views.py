@@ -95,7 +95,7 @@ def read_sms_from_customer(request):
                 if customer and 'stop' in str(sms_message).lower():
                     customer.cancel_by_customer = True
                     customer.save()
-                    unsubscribe_customer_log(customer)
+                    unsubscribe_customer_log(customer[0])
                     logger.success(f"Customer unsubscribe - {customer}")
                 elif customer and 'start' in str(sms_message).lower():
                     customer.cancel_by_customer = False
