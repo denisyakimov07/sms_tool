@@ -10,3 +10,4 @@ urlpatterns = [
     path('sms/api/v1/webhook/zendesk', views.zendesk_webhook),
     path('', views.redirect_view),
 ]
+
