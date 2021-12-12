@@ -102,6 +102,7 @@ def read_sms_from_customer(request):
                 customer.cancel_by_customer = False
                 customer.save()
                 logger.success(f"Customer subscribe - {customer}")
+                return HttpResponse(status=200)
             else:
 
                 new_log = LogIvents()
@@ -111,6 +112,7 @@ def read_sms_from_customer(request):
                 new_log.save()
                 sms_processor(new_customer=customer, sms_text=sms_message)
                 logger.success(f"Incoming sms - {customer}")
+                return HttpResponse(status=200)
 
 
         # else:
