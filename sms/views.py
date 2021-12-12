@@ -233,6 +233,16 @@ def feedback_sms_sender():
 
 @csrf_exempt
 def zendesk_webhook(request):
+    print(request.body["ticket_requester_phone"])
+    print("zendesk_webhook(request)")
+    print(request.body)
+    print(request.body["ticket_latest_comment"])
+
+    print(f"request.POST - {request.POST}")
+    print(f"request.body - {request.body}")
+    print(f"request.headers - {request.headers}")
+    print(f"request.method - {request.method}")
+
     if request.method == 'POST':
         print(request.body["ticket_requester_phone"])
         print("zendesk_webhook(request)")
