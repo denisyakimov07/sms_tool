@@ -37,14 +37,16 @@ def zen_get_ticket_by_id(id: int):
         return ticket
 
 
-def zen_add_new_message(ticket: zenpy.lib.api_objects.Ticket, message: str, customer, author_id):
-    ticket.comment = Comment(body=message, public=True, author_id=author_id)
-    ticket.status = "open"
-    ticket.recipient=User(name=f"{customer.first_name} {customer.last_name} {customer.phone_number}")
-    ZENPY_CLIENT.tickets.update(ticket)
-
-
-
+def zen_add_new_message(ticket: zenpy.lib.api_objects.Ticket, message: str, customer, author_id, db_zen_ticket):
+    if ticket:
+        ticket.comment = Comment(body=message, public=True, author_id=author_id)
+        ticket.status = "open"
+        ticket.recipient=User(name=f"{customer.first_name} {customer.last_name} {customer.phone_number}")
+        ZENPY_CLIENT.tickets.update(ticket)
+    else:
+        zen_create_new_ticket(customer=customer, sms_message=message)
+        db_zen_ticket.ticket_status=False
+        db_zen_ticket.save()
 
 
 
@@ -57,7 +59,8 @@ def sms_processor(new_customer: Customer(), sms_text: str):
         zen_add_new_message(ticket=zen_ticket_api,
                             message=sms_text,
                             customer=new_customer,
-                            author_id= zen_ticket.zen_user_id)
+                            author_id= zen_ticket.zen_user_id,
+                            db_zen_ticket=zen_ticket)
 
     else:
         zen_ticket_id = zen_create_new_ticket(new_customer, sms_text)
