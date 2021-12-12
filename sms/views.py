@@ -111,15 +111,15 @@ def read_sms_from_customer(request):
                 logger.success(f"Incoming sms - {customer}")
 
 
-        else:
-            logger.warning(f"Can't find customer - {phone_number}")
-        return HttpResponse(status=200)
-        try:
-            pass
-        except Exception as e:
-            logger.error(f"ERROR: Can't read post message")
-            logger.trace(e)
-            return HttpResponse(status=401)
+        # else:
+        #     logger.warning(f"Can't find customer - {phone_number}")
+        # return HttpResponse(status=200)
+        # try:
+        #     pass
+        # except Exception as e:
+        #     logger.error(f"ERROR: Can't read post message")
+        #     logger.trace(e)
+        #     return HttpResponse(status=401)
 
 
 def background_task():
@@ -234,9 +234,7 @@ def feedback_sms_sender():
 @csrf_exempt
 def zendesk_webhook(request):
     if request.method == 'POST':
-        print(request.POST)
-        print(request.body)
-        print(request.headers)
+        sms_sender(phone_number=request.body["ticket_requester_phone"], sms_body=request.body["ticket_latest_comment"])
         return HttpResponse(status=200)
 
 
