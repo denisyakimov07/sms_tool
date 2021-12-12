@@ -244,4 +244,5 @@ def zendesk_webhook(request):
         ticket_requester_phone = body['ticket_requester_phone']
         ticket_latest_comment = body['ticket_latest_comment']
         sms_sender(phone_number=ticket_requester_phone, sms_body=ticket_latest_comment)
+        logger.info(f"Get call from Zen  {ticket_requester_phone} - {ticket_latest_comment}.")
         return HttpResponse(status=200)
