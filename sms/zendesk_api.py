@@ -6,11 +6,11 @@ from zenpy.lib.api_objects import Ticket, User, TicketAudit, Comment
 
 from sms.models import Customer, ZenTicket
 
-use_api_token = "mmfTbSA33unXjMV1ASyOiOxFEQSzeHgG8VNHOObv"
+use_api_token = "kHQsdGfXWHfKVZb0SXk6xRS308bmmA0OX1Kglgqj"
 CREDS = {
-    'email': 'denisyakimov@gmail.com',
+    'email': 'adam@drnatmed.com',
     'token': use_api_token,
-    'subdomain': 'cccp'}
+    'subdomain': 'drnatmedco.zendesk.com'}
 
 ZENPY_CLIENT = Zenpy(**CREDS)
 
