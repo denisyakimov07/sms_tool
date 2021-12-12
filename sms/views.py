@@ -229,4 +229,6 @@ def feedback_sms_sender():
 def zendesk_webhook(request):
     if request.method == 'POST':
         print(request.POST)
+        print(request.body)
+        print(request.headers)
         return HttpResponse(status=200)
