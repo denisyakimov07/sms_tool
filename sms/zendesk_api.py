@@ -10,7 +10,7 @@ use_api_token = "kHQsdGfXWHfKVZb0SXk6xRS308bmmA0OX1Kglgqj"
 CREDS = {
     'email': 'adam@drnatmed.com',
     'token': use_api_token,
-    'subdomain': 'drnatmedco.zendesk.com'}
+    'subdomain': 'Doctors of Natural Medicine'}
 
 ZENPY_CLIENT = Zenpy(**CREDS)
 
