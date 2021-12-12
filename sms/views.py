@@ -85,34 +85,37 @@ def redirect_view(request):
 @csrf_exempt
 def read_sms_from_customer(request):
     if request.method == 'POST':
-        try:
-            phone_number = request.POST.get('From')
-            sms_message = request.POST.get('Body')
-            customer = Customer.objects.filter(phone_number__contains=phone_number[2:])
-            if customer:
-                customer = customer[0]
-                logger.info(f"Customer message - {customer} - {sms_message}")
-                if customer and 'stop' in str(sms_message).lower():
-                    customer.cancel_by_customer = True
-                    customer.save()
-                    unsubscribe_customer_log(customer[0])
-                    logger.success(f"Customer unsubscribe - {customer}")
-                elif customer and 'start' in str(sms_message).lower():
-                    customer.cancel_by_customer = False
-                    customer.save()
-                    logger.success(f"Customer subscribe - {customer}")
-                else:
-                    new_log = LogIvents()
-                    new_log.customer_info = f"{customer.first_name} {customer.last_name} - {customer.phone_number} - {customer.email}"
-                    new_log.status = "Incoming sms"
-                    new_log.message_type = sms_message
-                    new_log.save()
-                    logger.success(f"Incoming sms - {customer}")
-                    sms_processor(new_customer=customer[0], sms_text=sms_message)
-
+        phone_number = request.POST.get('From')
+        sms_message = request.POST.get('Body')
+        customer = Customer.objects.filter(phone_number__contains=phone_number[2:])
+        if customer:
+            customer = customer[0]
+            logger.info(f"Customer message - {customer} - {sms_message}")
+            if customer and 'stop' in str(sms_message).lower():
+                customer.cancel_by_customer = True
+                customer.save()
+                unsubscribe_customer_log(customer[0])
+                logger.success(f"Customer unsubscribe - {customer}")
+            elif customer and 'start' in str(sms_message).lower():
+                customer.cancel_by_customer = False
+                customer.save()
+                logger.success(f"Customer subscribe - {customer}")
             else:
-                logger.warning(f"Can't find customer - {phone_number}")
-            return HttpResponse(status=200)
+
+                new_log = LogIvents()
+                new_log.customer_info = f"{customer.first_name} {customer.last_name} - {customer.phone_number} - {customer.email}"
+                new_log.status = "Incoming sms"
+                new_log.message_type = sms_message
+                new_log.save()
+                sms_processor(new_customer=customer[0], sms_text=sms_message)
+                logger.success(f"Incoming sms - {customer}")
+
+
+        else:
+            logger.warning(f"Can't find customer - {phone_number}")
+        return HttpResponse(status=200)
+        try:
+            pass
         except Exception as e:
             logger.error(f"ERROR: Can't read post message")
             logger.trace(e)
