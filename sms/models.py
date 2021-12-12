@@ -66,7 +66,7 @@ class ZenTicket(models.Model):
     ticket_id = models.IntegerField(null=True, blank=True)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     ticket_status = models.BooleanField(blank=True, default=False)
-    zen_user_id = models.IntegerField(null=True, blank=True)
+    zen_user_id = models.BigIntegerField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.ticket_id} - {self.customer.phone_number} - {self.ticket_status}"

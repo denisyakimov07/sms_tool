@@ -20,8 +20,8 @@ def zen_create_new_ticket(customer, sms_message: str):
                               description=sms_message,
                               requester=User(name=f"{customer.first_name} {customer.last_name} {customer.phone_number}",
                               phone=customer.phone_number)))
-    print(new_t.author_id)
-    return (new_t.ticket.id, new_t.author_id)
+
+    return {"ticket_id":new_t.ticket.id, "requester_id" :new_t.ticket.requester_id}
 
 
 def zen_get_ticket_by_id(id: int):
@@ -62,13 +62,12 @@ def sms_processor(new_customer: Customer(), sms_text: str):
     else:
         zen_ticket_id = zen_create_new_ticket(new_customer, sms_text)
         zen_ticket = ZenTicket()
-        zen_ticket.ticket_id = zen_ticket_id[0]
+        zen_ticket.ticket_id = zen_ticket_id.get("ticket_id")
         zen_ticket.customer = new_customer
         zen_ticket.ticket_status = True
-        zen_ticket.zen_user_id = zen_ticket_id[1]
+        zen_ticket.zen_user_id = zen_ticket_id.get("requester_id")
         zen_ticket.save()
         logger.success(f"Create new ticket zen_id={zen_ticket.ticket_id}, phone={zen_ticket.customer.phone_number}")
-
 
 
     try:
