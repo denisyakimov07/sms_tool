@@ -32,6 +32,7 @@ class MainSetup(models.Model):
     third_sms_date = models.TextField(null=False, blank=True)  # last_appointment_date - 7 days
     one_year_sms_date= models.TextField(null=False, blank=True) # last_appointment_date = last_appointment_date
     update_all_users = models.BooleanField(blank=True, default=False)
+    phone_number = models.CharField(max_length=200, null=False, blank=True)
 
 
 class CustomerAPIDATA(BaseModel):
@@ -57,6 +58,7 @@ class FeedbackSMSTemplate(models.Model):
     first_Feedback_sms = models.TextField(null=True, blank=True)
     second_Feedback_sms = models.TextField(null=True, blank=True)
     sent_sms = models.BooleanField(blank=True, default=False)
+
 
     def __str__(self):
         return f"{self.first_Feedback_sms} - {self.second_Feedback_sms} - {self.sent_sms}"

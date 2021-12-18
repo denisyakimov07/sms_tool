@@ -3,7 +3,7 @@ from loguru import logger
 
 # Your Account SID from twilio.com/console
 from environment import get_env
-from sms.models import Customer
+from sms.models import Customer, MainSetup
 from sms.my_logger import send_sms_to_customer_log
 
 
@@ -30,9 +30,10 @@ def sms_sender(phone_number, sms_body):
         client = Client(account_sid, auth_token)
         message = client.messages.create(
             to=f"{phone_number}",
-            from_="+18449780057",
+            from_=MainSetup.objects.first().phone_number,
             body=f"{sms_body}")
         logger.info(f"Message sid - {message.sid}")
     except Exception as e:
         logger.error("ERROR: Can't send sms ")
         logger.trace(e)
+
