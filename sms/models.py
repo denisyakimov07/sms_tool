@@ -31,7 +31,6 @@ class MainSetup(models.Model):
     second_sms_date = models.TextField(null=False, blank=True) #last_appointment_date -14 days
     third_sms_date = models.TextField(null=False, blank=True)  # last_appointment_date - 7 days
     one_year_sms_date= models.TextField(null=False, blank=True) # last_appointment_date = last_appointment_date
-    update_all_users = models.BooleanField(blank=True, default=False)
     phone_number = models.CharField(max_length=200, null=False, blank=True)
 
 
