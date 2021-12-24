@@ -245,3 +245,4 @@ def zendesk_webhook(request):
         except Exception as e:
             logger.error(f"ERROR: Can't read data from Zen POST")
             logger.trace(e)
+            return HttpResponse(status=401)

@@ -68,6 +68,7 @@ class ZenTicket(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     ticket_status = models.BooleanField(blank=True, default=False)
     zen_user_id = models.BigIntegerField(null=True, blank=True)
+    creat = models.DateTimeField(null=True, blank=True, default=django.utils.timezone.now)
 
     def __str__(self):
         return f"{self.ticket_id} - {self.customer.phone_number} - {self.ticket_status}"
