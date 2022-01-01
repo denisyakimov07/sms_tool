@@ -36,7 +36,7 @@ def send_sms_to_customer_log(cus_info: Customer, message_type: str):
 def daily_report():
     try:
         total_sms_list = LogIvents.objects.filter(creat__date=timezone.now(), status="sent_sms")
-        unsubscribe_customers = LogIvents.objects.filter(creat__date=timezone.now() - datetime.timedelta(1), status="unsubscribe")
+        unsubscribe_customers = LogIvents.objects.filter(creat__date=timezone.now() - datetime.timedelta(1), status="Incoming sms")
         message = f"Total sent sms - {len(total_sms_list)} \nTotal unsubscribe yesterday customers - {len(unsubscribe_customers)}"
         send_email(message)
         logger.info("Creat daily report")
