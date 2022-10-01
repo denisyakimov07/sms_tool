@@ -1,7 +1,8 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Customer, MainSetup, LogIvents, ReportRecipient, FeedbackSMSTemplate
+from .models import Customer, MainSetup, LogIvents, ReportRecipient, FeedbackSMSTemplate, EmailReport, \
+    EmailReportRecipient
 
 admin.site.site_header = 'Doctors of Natural Medicine SMS Tool'
 admin.site.site_title = 'Doctors of Natural Medicine'
@@ -91,9 +92,19 @@ class FeedbackSMSTemplateAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         return False
 
+class EmailReportRecipientAdmin(admin.ModelAdmin):
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
 
 admin.site.register(Customer, CustomeAdmin)
 admin.site.register(MainSetup, MainSetupAdmin)
 admin.site.register(LogIvents, LogIventsAdmin)
 admin.site.register(ReportRecipient, ReportRecipientAdmin)
+admin.site.register(EmailReport)
+admin.site.register(EmailReportRecipient, EmailReportRecipientAdmin)
 admin.site.register(FeedbackSMSTemplate, FeedbackSMSTemplateAdmin)

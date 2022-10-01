@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path
 
 from sms import views
+# from sms.my_logger import email_test
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -11,3 +12,4 @@ urlpatterns = [
     path('', views.redirect_view),
 ]
 
+# email_test()

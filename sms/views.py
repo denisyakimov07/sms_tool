@@ -16,7 +16,7 @@ from sms.models import Customer, MainSetup, LogIvents, FeedbackSMSTemplate, ZenT
 
 from django.utils import timezone
 
-from sms.my_logger import unsubscribe_customer_log, daily_report
+from sms.my_logger import unsubscribe_customer_log, daily_report, email_daily_report
 from sms.twilio import send_sms_to_customer, sms_sender
 
 import threading
@@ -127,6 +127,7 @@ def background_task():
     sent_customers_one_year_sms_date()
     feedback_sms_sender()
     daily_report()
+    email_daily_report()
 
 
 @csrf_exempt
