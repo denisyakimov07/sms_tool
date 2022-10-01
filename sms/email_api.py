@@ -40,3 +40,11 @@ def email(msg, destination):
     except Exception as e:
         logger.error(f"ERROR: Can't daily report")
         logger.trace(e)
+
+
+
+
+
+
+
+
