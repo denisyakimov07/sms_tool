@@ -1,5 +1,10 @@
 import datetime
+import threading
 
+
+
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from loguru import logger
 
 from django.utils import timezone
@@ -42,6 +47,9 @@ def daily_report():
         logger.error("ERROR: Can't creat daily_report")
         logger.trace(e)
 
+def thread_email_daily_report(background_task):
+    threading.Thread(target=background_task).start()
+
 def email_daily_report():
     report_messages = []
     try:
@@ -55,3 +63,21 @@ def email_daily_report():
     except Exception as e:
         logger.error("ERROR: Can't creat email daily_report")
         logger.trace(e)
+
+@receiver(post_save, sender=EmailReport)
+def post_save_email_report(sender, **kwargs):
+    thread_email_daily_report(email_daily_report)
+
+# def table():
+#
+#     msg = EmailMessage()
+#     msg.add_alternative("""\
+#     <!DOCTYPE html>
+#     <html>
+#         <body>
+#             <h1 style="color:SlateGray;">This is an HTML Email!</h1>
+#         </body>
+#     </html>
+#     """, subtype='html')
+#
+#     email(msg, "DenisYakimov@gmail.com")
