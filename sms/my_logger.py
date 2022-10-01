@@ -1,8 +1,6 @@
 import datetime
 import threading
 
-
-
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from loguru import logger
@@ -58,16 +56,10 @@ def email_daily_report():
         for reports in email_report_list:
             customers_list = Customer.objects.filter(last_appointment_date__date=(timezone.now() - datetime.timedelta(365-reports.days)))
             dateISOFormat = (timezone.now() - datetime.timedelta(365-reports.days)).strftime('%x')
-            report_messages.append([f" \n \n {dateISOFormat}",[f" \n {customers.first_name} - {customers.last_name}- {customers.phone_number} - {customers.email} - cancel_by_customer {customers.cancel_by_customer}" for customers in customers_list]])
+            report_messages.append([f" \n \n {dateISOFormat}",[f" \n {customers.first_name} {customers.last_name} *** {customers.phone_number} *** {customers.email} *** cancel_by_customer {customers.cancel_by_customer}" for customers in customers_list]])
         email_report_recipient_list = email_report_recipient_list.emails_list.replace(' ', '').split(',')
         print(email_report_recipient_list)
         email((''.join(f"{str(mess[0])} {''.join(text for text in mess[1])}" for mess in report_messages)), email_report_recipient_list)
-
-
-
-
-
-
 
         logger.info("Creat email daily report")
     except Exception as e:

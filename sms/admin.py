@@ -92,11 +92,19 @@ class FeedbackSMSTemplateAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         return False
 
+class EmailReportRecipientAdmin(admin.ModelAdmin):
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
 
 admin.site.register(Customer, CustomeAdmin)
 admin.site.register(MainSetup, MainSetupAdmin)
 admin.site.register(LogIvents, LogIventsAdmin)
 admin.site.register(ReportRecipient, ReportRecipientAdmin)
 admin.site.register(EmailReport)
-admin.site.register(EmailReportRecipient)
+admin.site.register(EmailReportRecipient, EmailReportRecipientAdmin)
 admin.site.register(FeedbackSMSTemplate, FeedbackSMSTemplateAdmin)
