@@ -31,7 +31,7 @@ SECRET_KEY = get_env().SECRET_KEY
 DEBUG = True
 # DEBUG = get_env().DEBUG_STATUS
 
-ALLOWED_HOSTS = ['https://smstooltest.herokuapp.com/']
+ALLOWED_HOSTS = ['https://smstooltest.herokuapp.com/', 'https://smstool.herokuapp.com/']
 
 # Application definition
 

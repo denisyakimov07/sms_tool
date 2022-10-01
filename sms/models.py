@@ -72,3 +72,11 @@ class ZenTicket(models.Model):
 
     def __str__(self):
         return f"{self.ticket_id} - {self.customer.phone_number} - {self.ticket_status}"
+
+
+class EmailReport(models.Model):
+    days = models.IntegerField(null=True, default=0)
+    emails_list = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.days} - {self.emails_list}"
