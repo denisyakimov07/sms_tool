@@ -57,7 +57,7 @@ def email_daily_report():
         for reports in email_report_list:
             customers_list = Customer.objects.filter(last_appointment_date__date=(timezone.now() - datetime.timedelta(365-reports.days)))
             dateISOFormat = (timezone.now() - datetime.timedelta(365-reports.days)).strftime('%x')
-            report_messages.append([f" \n \n {dateISOFormat}",[f" \n {customers.first_name} - {customers.last_name}- {customers.phone_number} - {customers.email} - cancel_by_customer {customers.cancel_by_customer}" for customers in customers_list]])
+            report_messages.append([f" \n \n {dateISOFormat}",[f" \n {customers.first_name} - {customers.last_name}- {customers.phone_number} - {customers.email} - {customers.last_appointment_date}- cancel_by_customer {customers.cancel_by_customer}" for customers in customers_list]])
         email((''.join(f"{str(mess[0])} {''.join(text for text in mess[1])}" for mess in report_messages)), "DenisYakimov@gmail.com")
         logger.info("Creat email daily report")
     except Exception as e:
