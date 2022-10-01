@@ -1,7 +1,8 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Customer, MainSetup, LogIvents, ReportRecipient, FeedbackSMSTemplate, EmailReport
+from .models import Customer, MainSetup, LogIvents, ReportRecipient, FeedbackSMSTemplate, EmailReport, \
+    EmailReportRecipient
 
 admin.site.site_header = 'Doctors of Natural Medicine SMS Tool'
 admin.site.site_title = 'Doctors of Natural Medicine'
@@ -97,4 +98,5 @@ admin.site.register(MainSetup, MainSetupAdmin)
 admin.site.register(LogIvents, LogIventsAdmin)
 admin.site.register(ReportRecipient, ReportRecipientAdmin)
 admin.site.register(EmailReport)
+admin.site.register(EmailReportRecipient)
 admin.site.register(FeedbackSMSTemplate, FeedbackSMSTemplateAdmin)

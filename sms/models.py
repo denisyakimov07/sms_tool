@@ -76,7 +76,13 @@ class ZenTicket(models.Model):
 
 class EmailReport(models.Model):
     days = models.IntegerField(null=True, default=0)
+
+
+    def __str__(self):
+        return f"{self.days}"
+
+class EmailReportRecipient(models.Model):
     emails_list = models.TextField(null=True, blank=True)
 
     def __str__(self):
-        return f"{self.days} - {self.emails_list}"
+        return f" {self.emails_list}"
