@@ -12,4 +12,4 @@ urlpatterns = [
     path('', views.redirect_view),
 ]
 
-email_daily_report()
+# email_daily_report()
